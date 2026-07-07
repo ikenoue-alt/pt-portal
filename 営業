@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>POSTECH Sales Cloud</title>
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#fff; --surface-2:#f9fafb;
+  --ink:#151922; --muted:#667085; --line:#dfe4ea; --line-soft:#edf0f3;
+  --nav:#172233; --nav-2:#202d41;
+  --brand:#1f5b8f; --brand-dark:#173f66; --brand-soft:#e8f0f7;
+  --accent:#b58b2b; --accent-soft:#fff8e4;
+  --success:#25745a; --success-soft:#eaf7f1;
+  --warn:#aa6a1f; --warn-soft:#fdf3e4;
+  --danger:#9f3a38; --danger-soft:#fff0ef;
+  --shadow:0 18px 45px rgba(16,24,40,.08);
+  --radius:16px; --radius-sm:10px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--ink);letter-spacing:.01em;font-size:14px}
+.app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
+
+/* ===== sidebar ===== */
+aside{background:linear-gradient(180deg,var(--nav),var(--nav-2));color:#fff;padding:22px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:30}
+.logo{display:flex;align-items:center;gap:11px;margin-bottom:22px;padding:0 8px;cursor:pointer}
+.mark{width:38px;height:38px;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--brand-dark);font-weight:900;letter-spacing:-.04em;font-size:17px;flex:none}
+.logo strong{display:block;font-size:14px;line-height:1.15}
+.logo span{display:block;color:#b9c5d6;font-size:10.5px;margin-top:4px}
+.navgroup{font-size:10px;font-weight:800;color:#7f8ca0;letter-spacing:.12em;padding:14px 10px 6px}
+nav{display:grid;gap:4px}
+.navitem{display:flex;align-items:center;gap:11px;padding:10px 10px;border-radius:11px;color:#c8d2df;font-size:13px;text-decoration:none;cursor:pointer;border:0;background:none;text-align:left;font-family:inherit;width:100%}
+.navitem:hover{background:rgba(255,255,255,.07);color:#fff}
+.navitem.active{background:rgba(255,255,255,.12);color:#fff}
+.navitem svg{width:17px;height:17px;flex:none;opacity:.85}
+.navitem.active svg{color:var(--accent);opacity:1}
+.navitem .cnt{margin-left:auto;font-size:10.5px;font-weight:800;background:rgba(255,255,255,.12);border-radius:999px;padding:2px 8px;color:#dbe4ee}
+.sidebox{margin-top:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:14px;padding:13px}
+.sidebox p{margin:0;color:#d5deea;font-size:11.5px;line-height:1.7}
+.sidebox a{color:#9fc4e8;font-weight:700;text-decoration:none}
+
+/* ===== main frame ===== */
+main{padding:24px 32px 60px;min-width:0}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;gap:16px;flex-wrap:wrap}
+.breadcrumb{font-size:12px;color:var(--muted);margin-bottom:7px}
+h1{font-size:24px;margin:0;letter-spacing:-.03em}
+.lead{margin:7px 0 0;color:var(--muted);font-size:13px}
+.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+button,.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 15px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 1px 1px rgba(16,24,40,.03);white-space:nowrap}
+button:hover,.btn:hover{border-color:#c3ccd6}
+.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.primary:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+.ghost-danger{color:var(--danger);border-color:#e7c6c5}
+.btn-sm{padding:6px 11px;font-size:12px}
+.btn-icon{padding:7px 9px;line-height:0}
+button:disabled{opacity:.45;cursor:default}
+
+/* ===== panels ===== */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.panel-head{padding:16px 20px;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.panel-title{font-size:15px;font-weight:800;margin:0}
+.panel-note{font-size:12px;color:var(--muted);margin:3px 0 0}
+.panel-body{padding:18px 20px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.grid-31{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.stack{display:grid;gap:16px}
+
+/* ===== metrics ===== */
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:20px}
+.metric{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px 16px;min-height:104px;position:relative;overflow:hidden;cursor:pointer}
+.metric:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--brand)}
+.metric.m2:before{background:var(--success)}
+.metric.m3:before{background:var(--warn)}
+.metric.m4:before{background:var(--accent)}
+.metric small{display:block;color:var(--muted);font-size:12px;margin-bottom:9px}
+.metric strong{display:block;font-size:27px;letter-spacing:-.04em}
+.metric strong em{font-style:normal;font-size:14px;color:var(--muted);font-weight:700;margin-left:3px}
+.metric span{display:block;color:var(--muted);font-size:11.5px;margin-top:7px}
+
+/* ===== badges ===== */
+.badge{font-size:11px;font-weight:800;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:#fff;white-space:nowrap;color:var(--brand-dark);display:inline-block}
+.badge.gold{color:#6e5215;background:var(--accent-soft);border-color:#ead28b}
+.badge.green{color:#1e6a52;background:var(--success-soft);border-color:#b9dfcf}
+.badge.red{color:#873230;background:var(--danger-soft);border-color:#e7b9b7}
+.badge.orange{color:#8a5a1a;background:var(--warn-soft);border-color:#ecd2a8}
+.badge.blue{color:#1f5b8f;background:var(--brand-soft);border-color:#bcd3e6}
+.badge.gray{color:#5b6674;background:#f1f3f6;border-color:#dde2e9}
+
+/* ===== tables ===== */
+.table{width:100%;border-collapse:separate;border-spacing:0 7px}
+.table th{text-align:left;font-size:11px;color:var(--muted);font-weight:800;padding:0 12px 3px;white-space:nowrap}
+.table td{background:var(--surface-2);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);padding:11px 12px;font-size:13px;vertical-align:middle}
+.table td:first-child{border-left:1px solid var(--line-soft);border-radius:12px 0 0 12px;font-weight:800}
+.table td:last-child{border-right:1px solid var(--line-soft);border-radius:0 12px 12px 0}
+.table tr.clickable{cursor:pointer}
+.table tr.clickable:hover td{background:#f1f5f9}
+.table .num{text-align:right;font-variant-numeric:tabular-nums}
+.table th.num{text-align:right}
+.empty{border:1px dashed #cfd6df;border-radius:16px;background:#fbfcfd;padding:32px;text-align:center;color:var(--muted);font-size:13px}
+.empty strong{display:block;color:var(--ink);font-size:15px;margin-bottom:7px}
+
+/* ===== forms ===== */
+label.f{display:block;font-size:11.5px;font-weight:800;color:var(--muted);margin-bottom:5px}
+input[type=text],input[type=number],input[type=date],input[type=tel],input[type=email],select,textarea{
+  width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:13px;font-family:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(31,91,143,.25);border-color:var(--brand)}
+textarea{resize:vertical;min-height:70px}
+.frow{display:grid;gap:12px;margin-bottom:12px}
+.frow.c2{grid-template-columns:1fr 1fr}
+.frow.c3{grid-template-columns:1fr 1fr 1fr}
+.frow.c4{grid-template-columns:repeat(4,1fr)}
+.searchbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.searchbar input,.searchbar select{width:auto;min-width:150px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:var(--muted);user-select:none}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* ===== kanban ===== */
+.kanban{display:grid;grid-template-columns:repeat(6,minmax(190px,1fr));gap:12px;overflow-x:auto;align-items:start;padding-bottom:6px}
+.kcol{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:14px;min-height:120px}
+.kcol-h{padding:11px 13px;font-size:12px;font-weight:800;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line-soft)}
+.kcol-h .cnt{font-size:11px;color:var(--muted);font-weight:800}
+.kcol-b{padding:9px;display:grid;gap:8px;min-height:60px}
+.kcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px;cursor:grab;box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.kcard:active{cursor:grabbing}
+.kcard h4{margin:0 0 5px;font-size:13px}
+.kcard p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.55}
+.kcard .kfoot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:6px}
+.kcard .kfoot b{font-size:12px;color:var(--brand-dark);font-variant-numeric:tabular-nums}
+.kcol.dragover{outline:2px dashed var(--brand);outline-offset:-4px}
+
+/* ===== cards grid (creatives) ===== */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.ccard{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer}
+.ccard:hover{border-color:#c3ccd6}
+.cthumb{height:135px;background:#eef2f6;display:grid;place-items:center;color:#9aa7b6;font-size:11px;font-weight:800;border-bottom:1px solid var(--line-soft);overflow:hidden}
+.cthumb img{width:100%;height:100%;object-fit:cover}
+.cbody{padding:12px 13px}
+.cbody h4{margin:0 0 5px;font-size:13.5px}
+.cbody p{margin:0 0 8px;font-size:11.5px;color:var(--muted)}
+.cvr-line{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}
+.cvr-line b{color:var(--success);font-size:13px}
+
+/* ===== charts ===== */
+.chartbox{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#fff,#f9fafb);padding:14px;overflow:hidden}
+.chartbox h4{margin:2px 4px 10px;font-size:13px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin:8px 4px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* ===== modal ===== */
+.overlay{position:fixed;inset:0;background:rgba(15,22,33,.45);display:none;place-items:center;z-index:100;padding:20px}
+.overlay.show{display:grid}
+.modal{background:#fff;border-radius:18px;width:min(720px,100%);max-height:90vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal.wide{width:min(980px,100%)}
+.modal-h{padding:18px 22px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:2;border-radius:18px 18px 0 0}
+.modal-h h2{margin:0;font-size:17px}
+.modal-b{padding:20px 22px}
+.modal-f{padding:14px 22px 18px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;gap:10px;position:sticky;bottom:0;background:#fff;border-radius:0 0 18px 18px}
+.modal-f .right{display:flex;gap:9px;margin-left:auto}
+.x{border:0;background:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;box-shadow:none}
+
+/* ===== toast ===== */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#172233;color:#fff;padding:11px 20px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#toast.show{opacity:1}
+
+/* ===== detail fields ===== */
+.dfield{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--line-soft);padding:9px 0;font-size:13px;gap:8px}
+.dfield b{color:var(--muted);font-weight:800;font-size:12px}
+.timeline{display:grid;gap:11px}
+.timeitem{display:grid;grid-template-columns:78px 1fr;gap:10px;font-size:12px}
+.timeitem b{color:var(--brand-dark);font-variant-numeric:tabular-nums}
+.timeitem span{color:var(--muted);line-height:1.55}
+
+/* ===== navi (sales knowledge) ===== */
+.navi-sec{margin-bottom:8px}
+.acc{border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:10px;overflow:hidden}
+.acc summary{padding:14px 18px;font-weight:800;font-size:13.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:after{content:"＋";color:var(--muted);font-weight:400}
+.acc[open] summary:after{content:"－"}
+.acc .acc-b{padding:0 18px 16px;font-size:13px;line-height:1.85;color:#333c49}
+.acc .acc-b h5{margin:14px 0 6px;font-size:12.5px;color:var(--brand-dark)}
+.talk{border-left:3px solid var(--brand);background:var(--brand-soft);border-radius:0 10px 10px 0;padding:10px 14px;margin:8px 0;font-size:12.5px;line-height:1.8}
+.talk.obj{border-color:var(--warn);background:var(--warn-soft)}
+.kv{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0}
+.kv th,.kv td{border:1px solid var(--line-soft);padding:7px 10px;text-align:left}
+.kv th{background:var(--surface-2);font-size:11px;color:var(--muted)}
+.kv td.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ===== print document ===== */
+#printRoot{display:none}
+.doc{width:210mm;min-height:296mm;background:#fff;margin:0 auto 14px;padding:18mm 17mm;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.14);page-break-after:always}
+.doc:last-child{page-break-after:auto}
+.doc .side{position:absolute;left:0;top:0;bottom:0;width:5mm;background:linear-gradient(180deg,#1f5b8f,#b58b2b)}
+.doc-eyebrow{font-size:10px;letter-spacing:.22em;color:var(--accent);font-weight:800;margin-bottom:6mm}
+.doc h1.dt{font-size:29px;letter-spacing:-.02em;margin:0 0 4mm;line-height:1.35}
+.doc h2.ds{font-size:16px;border-left:4px solid var(--brand);padding-left:10px;margin:10mm 0 5mm}
+.doc p.dl{font-size:12px;color:#444;line-height:1.9;margin:0}
+.doc-meta{margin-top:12mm;font-size:12px;color:#555;line-height:2}
+.doc-foot{position:absolute;bottom:12mm;left:22mm;right:17mm;display:flex;justify-content:space-between;font-size:10px;color:#98a2b0}
+.dtable{width:100%;border-collapse:collapse;font-size:12px}
+.dtable th{background:#eef3f8;border:1px solid #d7dfe8;padding:8px 10px;text-align:left;font-size:11px;color:#33495e}
+.dtable td{border:1px solid #d7dfe8;padding:8px 10px}
+.dtable td.num{text-align:right;font-variant-numeric:tabular-nums}
+.dtable tr.total td{background:#f7f1e5;font-weight:800}
+.doc-hero{background:#f2f6fa;border:1px solid #d7e2ec;border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.doc-hero small{display:block;font-size:10px;color:#5c6b7c;margin-bottom:4px;font-weight:800}
+.doc-hero b{font-size:19px;letter-spacing:-.02em}
+.doc-note{font-size:10.5px;color:#777;margin-top:3mm;line-height:1.7}
+
+#printOverlay{position:fixed;inset:0;background:#525659;z-index:150;display:none;overflow:auto;padding:30px 16px 70px}
+#printOverlay.show{display:block}
+.print-tools{position:fixed;top:0;left:0;right:0;background:#172233;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 22px;z-index:160}
+.print-tools b{font-size:13px}
+.print-tools .actions button{box-shadow:none}
+#printOverlay .doc-wrap{margin-top:46px}
+
+@media print{
+  body>*{display:none !important}
+  #printOverlay{display:block !important;position:static;background:#fff;padding:0}
+  #printOverlay .print-tools{display:none !important}
+  #printOverlay .doc-wrap{display:block !important;margin:0}
+  .doc{box-shadow:none;margin:0;width:auto;min-height:auto}
+  @page{size:A4;margin:0}
+}
+
+/* ===== responsive ===== */
+#menuBtn{display:none}
+@media (max-width:1100px){
+  .app{grid-template-columns:1fr}
+  aside{position:fixed;left:-270px;width:260px;transition:left .25s;box-shadow:0 0 60px rgba(0,0,0,.35)}
+  aside.open{left:0}
+  #menuBtn{display:inline-block}
+  main{padding:18px}
+  .grid-31,.grid-2{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .kanban{grid-template-columns:repeat(6,230px)}
+}
+@media (max-width:640px){
+  .metrics{grid-template-columns:1fr 1fr}
+  .frow.c2,.frow.c3,.frow.c4{grid-template-columns:1fr}
+  .topbar{flex-direction:column}
+}
+
+
+/* =====================================================
+   POSTECH Operations Console redesign
+   - UI/UX appearance only. Business content, functions and data model preserved.
+   ===================================================== */
+:root{
+  --bg:#f5f6f8;
+  --surface:#ffffff;
+  --surface-2:#fafafa;
+  --ink:#111827;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --line-soft:#eef0f3;
+  --line-strong:#cbd5e1;
+  --nav:#101828;
+  --nav-2:#101828;
+  --brand:#1e3a5f;
+  --brand-dark:#172e4a;
+  --brand-soft:#eef4fa;
+  --accent:#9a7a2f;
+  --accent-soft:#fbf7ea;
+  --success:#256d4f;
+  --success-soft:#eef8f3;
+  --warn:#a16207;
+  --warn-soft:#fff7ed;
+  --danger:#b42318;
+  --danger-soft:#fff1f0;
+  --shadow:none;
+  --radius:8px;
+  --radius-sm:6px;
+}
+html,body{background:var(--bg);font-size:14px;letter-spacing:0;color:var(--ink);}
+body:before{content:"";position:fixed;inset:0 0 auto 0;height:3px;background:var(--brand);z-index:999;}
+.app{grid-template-columns:248px 1fr;}
+aside{background:#101828;border-right:1px solid #1f2937;padding:18px 12px;box-shadow:none;}
+.logo{gap:10px;margin-bottom:14px;padding:0 6px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+.mark{width:34px;height:34px;border-radius:6px;color:#101828;font-size:15px;background:#fff;}
+.logo strong{font-size:13px;letter-spacing:.01em;}
+.logo span{font-size:10px;color:#98a2b3;}
+.navgroup{font-size:10px;color:#858d9b;letter-spacing:.14em;padding:13px 8px 5px;}
+nav{gap:2px;}
+.navitem{border-radius:6px;padding:9px 10px;color:#cbd5e1;font-weight:600;border-left:3px solid transparent;}
+.navitem:hover{background:#182230;color:#fff;}
+.navitem.active{background:#1d2939;color:#fff;border-left-color:var(--accent);}
+.navitem svg{width:16px;height:16px;opacity:.75;}
+.navitem.active svg{color:#fff;opacity:.92;}
+.navitem .cnt{background:#344054;color:#fff;border-radius:4px;padding:1px 6px;font-size:10px;}
+.sidebox{border:1px solid rgba(255,255,255,.08);background:#0b1220;border-radius:8px;margin-top:18px;padding:12px;}
+.sidebox p{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px;color:#d0d5dd;font-size:11px;line-height:1.45;}
+.sidebox p:last-child{margin-bottom:0;}
+.sidebox b{color:#98a2b3;font-size:10px;letter-spacing:.08em;}
+.sidebox a{color:#d7e7f7;text-decoration:none;border-bottom:1px solid rgba(215,231,247,.35);}
+main{padding:22px 28px 56px;background:linear-gradient(180deg,#f7f8fa 0,#f5f6f8 180px);}
+.topbar{align-items:center;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px;}
+.breadcrumb{font-size:11px;margin-bottom:6px;color:#7b8494;}
+h1{font-size:22px;letter-spacing:-.02em;font-weight:800;}
+.lead{font-size:12.5px;color:#667085;margin-top:5px;}
+.actions{gap:8px;}
+button,.btn{border-radius:6px;box-shadow:none;padding:8px 13px;font-weight:650;background:#fff;border-color:#d0d5dd;color:#1f2937;}
+button:hover,.btn:hover{border-color:#98a2b3;background:#f9fafb;}
+.primary{background:var(--brand);border-color:var(--brand);color:#fff;}
+.primary:hover{background:var(--brand-dark);border-color:var(--brand-dark);}
+.ghost-danger{color:var(--danger);border-color:#f0c7c3;background:#fff;}
+.btn-sm{padding:6px 10px;border-radius:6px;}
+.panel{border:1px solid var(--line);border-radius:8px;box-shadow:none;background:#fff;}
+.panel-head{padding:14px 16px;border-bottom:1px solid var(--line);background:#fff;border-radius:8px 8px 0 0;}
+.panel-title{font-size:14px;font-weight:800;}
+.panel-note{font-size:11.5px;margin-top:2px;}
+.panel-body{padding:16px;}
+.stack{gap:14px;}
+.grid-2{gap:16px;}
+.grid-31{grid-template-columns:minmax(0,1fr) 360px;gap:16px;}
+.metrics{gap:10px;margin-bottom:16px;}
+.metric{border-radius:8px;min-height:86px;padding:13px 14px;background:#fff;box-shadow:none;}
+.metric:before{width:3px;}
+.metric small{font-size:11px;margin-bottom:6px;font-weight:700;color:#667085;}
+.metric strong{font-size:24px;}
+.metric strong em{font-size:12px;}
+.metric span{font-size:11px;margin-top:5px;}
+.badge{border-radius:4px;padding:3px 7px;font-size:10.5px;font-weight:800;}
+.badge.gold{color:#755b1f;background:#fbf7ea;border-color:#e8d394;}
+.badge.green{color:#146c43;background:#ecfdf3;border-color:#abefc6;}
+.badge.red{color:#b42318;background:#fff1f0;border-color:#fecdca;}
+.badge.orange{color:#9a5b13;background:#fff7ed;border-color:#fed7aa;}
+.badge.blue{color:#1e3a5f;background:#eef4fa;border-color:#c7d7e6;}
+.badge.gray{color:#475467;background:#f2f4f7;border-color:#d0d5dd;}
+.table{border-collapse:collapse;border-spacing:0;width:100%;}
+.table th{background:#f8fafc;border-bottom:1px solid var(--line);padding:9px 10px;font-size:11px;color:#667085;}
+.table td{background:#fff;border:0;border-bottom:1px solid var(--line-soft);padding:10px 10px;font-size:13px;}
+.table td:first-child,.table td:last-child{border-left:0;border-right:0;border-radius:0;}
+.table tr.clickable:hover td{background:#f8fafc;}
+.empty{border-radius:8px;background:#fbfcfd;padding:28px;border-color:#d0d5dd;}
+.empty strong{font-size:14px;}
+input[type=text],input[type=number],input[type=date],input[type=tel],input[type=email],select,textarea{border-radius:6px;padding:8px 10px;border-color:#d0d5dd;}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(30,58,95,.18);border-color:#1e3a5f;}
+label.f{font-size:11px;color:#667085;}
+.searchbar{gap:8px;}
+.chip{border-radius:6px;padding:5px 9px;font-weight:650;}
+.chip.on{background:#1e3a5f;border-color:#1e3a5f;}
+.kanban{gap:10px;}
+.kcol{border-radius:8px;background:#f8fafc;border-color:#e5e7eb;}
+.kcol-h{padding:10px 11px;background:#fff;border-bottom:1px solid #e5e7eb;border-radius:8px 8px 0 0;}
+.kcard{border-radius:7px;box-shadow:none;padding:10px 11px;}
+.kcard:hover{border-color:#b8c2cf;background:#fcfcfd;}
+.kcard h4{font-size:12.5px;}
+.kcard p{font-size:11px;}
+.ccard{border-radius:8px;box-shadow:none;}
+.cthumb{height:126px;background:#f2f4f7;}
+.chartbox{border-radius:8px;background:#fff;}
+.overlay{background:rgba(16,24,40,.38);}
+.modal{border-radius:8px;box-shadow:0 18px 50px rgba(16,24,40,.22);}
+.modal-h{border-radius:8px 8px 0 0;padding:15px 18px;}
+.modal-b{padding:18px;}
+.modal-f{border-radius:0 0 8px 8px;padding:13px 18px;}
+.x{font-size:18px;}
+#toast{border-radius:6px;background:#101828;box-shadow:0 12px 28px rgba(16,24,40,.24);}
+.dfield{grid-template-columns:124px 1fr;}
+.acc{border-radius:8px;margin-bottom:8px;}
+.acc summary{padding:13px 15px;}
+.talk{border-radius:0 6px 6px 0;}
+.doc{box-shadow:0 4px 18px rgba(16,24,40,.14);}
+.doc .side{width:3mm;background:#1e3a5f;}
+.doc-eyebrow{color:#9a7a2f;}
+.doc h2.ds{border-left:3px solid #1e3a5f;}
+.doc-hero{border-radius:8px;background:#f8fafc;}
+.print-tools{background:#101828;}
+#menuBtn{border-radius:6px;}
+@media (max-width:1100px){main{padding:18px}.grid-31,.grid-2{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){main{padding:14px}.metrics{grid-template-columns:1fr}.topbar{align-items:flex-start}.searchbar input,.searchbar select{width:100%;min-width:0}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <aside id="sidebar">
+    <div class="logo" onclick="go('dashboard')">
+      <div class="mark">P</div>
+      <div><strong>POSTECH<br>Sales Cloud</strong><span>販促営業支援システム</span></div>
+    </div>
+    <nav id="mainNav"></nav>
+    <div class="sidebox ops-status">
+      <p><b>保存先</b><span>この端末</span></p>
+      <p><b>外部連携</b><a href="https://haifudb-uhf6aprj.manus.space/" target="_blank" rel="noopener">配布台帳を開く</a></p>
+      <p><b>用途</b><span>営業・現場・反響管理</span></p>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div>
+        <button id="menuBtn" class="btn-sm" onclick="document.getElementById('sidebar').classList.toggle('open')">メニュー</button>
+        <div class="breadcrumb" id="crumb">Sales Cloud / Dashboard</div>
+        <h1 id="pageTitle">営業ダッシュボード</h1>
+        <p class="lead" id="pageLead"></p>
+      </div>
+      <div class="actions" id="pageActions"></div>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<!-- modal -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modalBox">
+    <div class="modal-h"><h2 id="modalTitle"></h2><button class="x" onclick="closeModal()">×</button></div>
+    <div class="modal-b" id="modalBody"></div>
+    <div class="modal-f" id="modalFoot"></div>
+  </div>
+</div>
+
+<!-- print overlay -->
+<div id="printOverlay">
+  <div class="print-tools">
+    <b id="printTitle">プレビュー</b>
+    <div class="actions">
+      <button class="btn-sm" onclick="closePrint()">閉じる</button>
+      <button class="btn-sm primary" onclick="window.print()">印刷 / PDF保存</button>
+    </div>
+  </div>
+  <div class="doc-wrap" id="printRootBody"></div>
+</div>
+
+<div id="toast"></div>
+<script>
+/* =====================================================
+   POSTECH Sales Cloud
+   単一ファイル / 依存ライブラリなし / localStorage永続化
+   ===================================================== */
+
+/* ---------- 定数 ---------- */
+const WARDS=["千代田区","中央区","港区","新宿区","文京区","台東区","墨田区","江東区","品川区","目黒区","大田区","世田谷区","渋谷区","中野区","杉並区","豊島区","北区","荒川区","板橋区","練馬区","足立区","葛飾区","江戸川区"];
+const INDUSTRIES=["不動産(売買)","不動産(賃貸)","買取・リサイクル","飲食・デリバリー","学習塾・教育","美容・サロン","整骨院・治療院","フィットネス","リフォーム・住設","クリニック・医療","士業・法務","小売・スーパー","イベント・行政","その他"];
+const STAGES=["リード","ヒアリング","提案中","受注","配布中","報告・反響"];
+const STAGE_COLORS={"リード":"gray","ヒアリング":"blue","提案中":"orange","受注":"green","配布中":"gold","報告・反響":"blue"};
+const CUST_STATUS=["見込","商談中","取引中","休眠"];
+const CUST_COLORS={"見込":"gray","商談中":"orange","取引中":"green","休眠":"red"};
+const SIZES=["B5以下","A4","B4","A3以上"];
+const METHODS=["軒並み配布","集合住宅限定","戸建て限定","事業所配布"];
+
+/* 業種別 反響率ベンチマーク(%) 下限/上限 ＋ 提案時トーク */
+const BENCH={
+ "不動産(売買)":[0.03,0.08,"1件成約の単価が大きく、0.0x%でも十分ペイする業種"],
+ "不動産(賃貸)":[0.05,0.12,"引越しシーズン(1〜3月)の集中投下が定石"],
+ "買取・リサイクル":[0.10,0.30,"高齢層・戸建てに強い。チラシ保管率が高く遅効反響が出やすい"],
+ "飲食・デリバリー":[0.10,0.30,"クーポン付きで反響率が跳ねる。商圏1〜2km集中"],
+ "学習塾・教育":[0.05,0.10,"新学期前(2〜3月/夏期前)が勝負。ファミリー層エリア選定が鍵"],
+ "美容・サロン":[0.10,0.20,"新規オープン時は0.3%超も。女性向けデザイン品質が効く"],
+ "整骨院・治療院":[0.10,0.30,"半径1km圏の高頻度配布でリピート認知を形成"],
+ "フィットネス":[0.10,0.20,"1月・4月・9月の入会期に合わせた配布設計"],
+ "リフォーム・住設":[0.03,0.10,"築20年以上の戸建てエリア指定が反響を左右する"],
+ "クリニック・医療":[0.05,0.15,"開院告知は0.2%超の事例あり。診療圏1.5km"],
+ "士業・法務":[0.02,0.08,"相続・債務整理などテーマ特化型が有効"],
+ "小売・スーパー":[0.30,1.00,"セール告知は即効性が高い。曜日指定配布が有効"],
+ "イベント・行政":[0.05,0.20,"全戸周知目的。反響率より到達率で評価"],
+ "その他":[0.05,0.15,"類似業種の実績から個別にご提案"]
+};
+
+/* 単価マスタ 初期値(円/枚) */
+const DEFAULT_PRICES={
+ "軒並み配布":{"B5以下":4.5,"A4":5.0,"B4":6.5,"A3以上":8.5},
+ "集合住宅限定":{"B5以下":6.0,"A4":6.5,"B4":8.0,"A3以上":10.0},
+ "戸建て限定":{"B5以下":8.0,"A4":8.5,"B4":10.0,"A3以上":12.0},
+ "事業所配布":{"B5以下":9.0,"A4":9.5,"B4":11.0,"A3以上":13.0}
+};
+
+/* ---------- ストア ---------- */
+const DBKEY="psc_data_v1";
+let DB=load();
+function blank(){return {customers:[],deals:[],creatives:[],responses:[],prohibited:[],activities:[],settings:{prices:JSON.parse(JSON.stringify(DEFAULT_PRICES)),company:"株式会社ポスティングホールディングス",person:"",tel:"",mail:""}}}
+function load(){
+  try{const raw=localStorage.getItem(DBKEY);if(!raw)return blank();
+    const d=JSON.parse(raw);const b=blank();
+    for(const k in b){if(d[k]===undefined)d[k]=b[k]}
+    if(!d.settings.prices)d.settings.prices=JSON.parse(JSON.stringify(DEFAULT_PRICES));
+    return d;
+  }catch(e){return blank()}
+}
+function save(){localStorage.setItem(DBKEY,JSON.stringify(DB));renderNavCounts()}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function logAct(text){DB.activities.unshift({id:uid(),date:today(),text});DB.activities=DB.activities.slice(0,80)}
+
+/* ---------- ユーティリティ ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const yen=n=>"¥"+Math.round(n||0).toLocaleString();
+const num=n=>(n||0).toLocaleString();
+const pct=n=>(Math.round(n*1000)/1000)+"%";
+function today(){const d=new Date();return d.toISOString().slice(0,10)}
+function fmtD(s){if(!s)return "—";const[y,m,d]=s.split("-");return `${y}/${m}/${d}`}
+function monthKey(s){return (s||"").slice(0,7)}
+function thisMonth(){return today().slice(0,7)}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200)}
+function cname(id){const c=DB.customers.find(x=>x.id===id);return c?c.name:"（顧客未設定）"}
+function deal(id){return DB.deals.find(x=>x.id===id)}
+function dealResponses(dealId){return DB.responses.filter(r=>r.dealId===dealId)}
+function calcPrice(method,size,copies){const p=(DB.settings.prices[method]||{})[size]||0;return p*(copies||0)}
+
+/* ---------- モーダル / 印刷 ---------- */
+function openModal(title,bodyHTML,footHTML,wide){
+  $("#modalTitle").textContent=title;
+  $("#modalBody").innerHTML=bodyHTML;
+  $("#modalFoot").innerHTML=footHTML||`<div class="right"><button onclick="closeModal()">閉じる</button></div>`;
+  $("#modalBox").classList.toggle("wide",!!wide);
+  $("#overlay").classList.add("show");
+}
+function closeModal(){$("#overlay").classList.remove("show")}
+$("#overlay")?.addEventListener("click",e=>{if(e.target.id==="overlay")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closePrint()}});
+function openPrint(title,html){$("#printTitle").textContent=title;$("#printRootBody").innerHTML=html;$("#printOverlay").classList.add("show");window.scrollTo(0,0)}
+function closePrint(){$("#printOverlay").classList.remove("show")}
+
+/* ---------- ルーター ---------- */
+const VIEWS={
+ dashboard:{t:"営業ダッシュボード",lead:"提案・案件・現場・反響をひとつの流れで確認します。",icon:"M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"},
+ customers:{t:"顧客管理",lead:"見込みから既存まで、次のアクションが見える顧客台帳。",icon:"M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"},
+ deals:{t:"案件管理",lead:"リードから報告まで、案件をドラッグで動かして管理。",icon:"M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"},
+ proposal:{t:"提案書ジェネレーター",lead:"条件を入れるだけで、そのまま出せる提案書PDFを生成。",icon:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"},
+ creatives:{t:"クリエイティブ",lead:"過去の制作物と反響実績を紐づけて資産化。",icon:"M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22z"},
+ responses:{t:"反響分析",lead:"配布実績と反響を記録して、次の提案の武器にする。",icon:"M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"},
+ field:{t:"現場資料",lead:"禁止物件と配布指示書。配布前の確認をここで完結。",icon:"M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"},
+ navi:{t:"営業ナビ",lead:"新人でも今日から商談できる、ポスティング営業の教科書。",icon:"M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"},
+ settings:{t:"設定・データ",lead:"単価マスタとバックアップ。データはこの端末に保存されます。",icon:"M19.14 12.94a7.14 7.14 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7.14 7.14 0 0 0 0 1.88L2.83 14.4a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.39.32.61.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.49.42h3.8c.24 0 .45-.18.49-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.1.48.01.61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.46zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"}
+};
+const NAV_GROUPS=[["メイン",["dashboard","customers","deals"]],["営業武器",["proposal","creatives","responses","navi"]],["現場・運用",["field","settings"]]];
+let CURRENT="dashboard";
+
+function renderNav(){
+  let h="";
+  for(const[g,items]of NAV_GROUPS){
+    h+=`<div class="navgroup">${g}</div>`;
+    for(const k of items){
+      const v=VIEWS[k];
+      h+=`<button class="navitem${k===CURRENT?" active":""}" onclick="go('${k}')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="${v.icon}"/></svg>${v.t}<span class="cnt" data-cnt="${k}"></span></button>`;
+    }
+  }
+  $("#mainNav").innerHTML=h;renderNavCounts();
+}
+function renderNavCounts(){
+  const map={customers:DB.customers.length,deals:DB.deals.filter(d=>d.stage!=="報告・反響").length,creatives:DB.creatives.length};
+  document.querySelectorAll("[data-cnt]").forEach(el=>{const n=map[el.dataset.cnt];el.textContent=n?n:"";el.style.display=n?"":"none"});
+}
+function go(view){
+  CURRENT=view;renderNav();
+  const v=VIEWS[view];
+  $("#crumb").textContent="Sales Cloud / "+v.t;
+  $("#pageTitle").textContent=v.t;
+  $("#pageLead").textContent=v.lead;
+  $("#sidebar").classList.remove("open");
+  RENDER[view]();
+  window.scrollTo(0,0);
+}
+function setActions(html){$("#pageActions").innerHTML=html}
+
+/* =====================================================
+   SVGチャート
+   ===================================================== */
+function barChart(data,opts={}){
+  // data:[{label,v1,v2?}]  v1棒 v2折れ線(任意)
+  const W=opts.w||620,H=opts.h||230,pad={t:16,r:18,b:30,l:46};
+  const iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+  const max=Math.max(1,...data.map(d=>d.v1));
+  const max2=Math.max(0.0001,...data.map(d=>d.v2||0));
+  const bw=Math.min(46,iw/data.length*0.56);
+  let g="";
+  for(let i=0;i<4;i++){const y=pad.t+ih*i/3;g+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="#edf0f3"/>`;
+    g+=`<text x="${pad.l-7}" y="${y+4}" font-size="10" fill="#98a2b0" text-anchor="end">${num(Math.round(max*(3-i)/3))}</text>`}
+  let line="",dots="";
+  data.forEach((d,i)=>{
+    const cx=pad.l+iw*(i+0.5)/data.length;
+    const bh=ih*d.v1/max;
+    g+=`<rect x="${cx-bw/2}" y="${pad.t+ih-bh}" width="${bw}" height="${Math.max(bh,1)}" rx="6" fill="#9fc0da" stroke="#7ea6c6"/>`;
+    g+=`<text x="${cx}" y="${H-9}" font-size="10.5" fill="#667085" text-anchor="middle">${esc(d.label)}</text>`;
+    if(d.v2!==undefined){
+      const cy=pad.t+ih-ih*(d.v2/max2);
+      line+=(line?" L":"M")+cx+" "+cy;
+      dots+=`<circle cx="${cx}" cy="${cy}" r="4" fill="#b58b2b" stroke="#fff" stroke-width="1.5"/>`;
+      dots+=`<text x="${cx}" y="${cy-9}" font-size="10" fill="#8a6a1d" text-anchor="middle" font-weight="700">${d.v2}</text>`;
+    }
+  });
+  if(line)g+=`<path d="${line}" fill="none" stroke="#b58b2b" stroke-width="2"/>`+dots;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${g}</svg>`;
+}
+function hBars(data,opts={}){
+  // data:[{label,value,sub}] 横棒
+  const max=Math.max(0.0001,...data.map(d=>d.value));
+  return data.map(d=>`
+   <div style="margin-bottom:11px">
+     <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+       <b>${esc(d.label)}</b><span style="color:var(--muted)">${esc(d.sub)}</span></div>
+     <div style="height:9px;background:#eef2f6;border-radius:99px;overflow:hidden">
+       <div style="width:${Math.max(2,d.value/max*100)}%;height:100%;background:linear-gradient(90deg,#1f5b8f,#4d87b5);border-radius:99px"></div></div>
+   </div>`).join("")||`<p style="color:var(--muted);font-size:12px">データがまだありません。</p>`;
+}
+
+/* =====================================================
+   ダッシュボード
+   ===================================================== */
+const RENDER={};
+RENDER.dashboard=function(){
+  setActions(`<button onclick="go('responses')">反響を記録</button>
+    <button onclick="openDealForm()">案件を追加</button>
+    <button class="primary" onclick="go('proposal')">新規提案書</button>`);
+
+  const tm=thisMonth();
+  const proposalsThisMonth=DB.deals.filter(d=>monthKey(d.createdAt)===tm).length;
+  const active=DB.deals.filter(d=>["ヒアリング","提案中","受注","配布中"].includes(d.stage)).length;
+  const distThisMonth=DB.responses.filter(r=>monthKey(r.date)===tm).reduce((s,r)=>s+(+r.copies||0),0);
+  const totC=DB.responses.reduce((s,r)=>s+(+r.copies||0),0);
+  const totR=DB.responses.reduce((s,r)=>s+(+r.responses||0),0);
+  const avgCvr=totC?totR/totC*100:0;
+
+  const months=[];const d0=new Date();
+  for(let i=5;i>=0;i--){const d=new Date(d0.getFullYear(),d0.getMonth()-i,1);months.push(d.toISOString().slice(0,7))}
+  const chartData=months.map(m=>{
+    const rs=DB.responses.filter(r=>monthKey(r.date)===m);
+    const c=rs.reduce((s,r)=>s+(+r.copies||0),0),r=rs.reduce((s,x)=>s+(+x.responses||0),0);
+    return{label:m.slice(2).replace("-","/"),v1:c,v2:c?Math.round(r/c*100*1000)/1000:0};
+  });
+
+  const todos=[];
+  DB.deals.filter(d=>d.nextDate&&d.nextDate<=today()&&d.stage!=="報告・反響").slice(0,6).forEach(d=>{
+    todos.push({t:`${cname(d.customerId)}：${d.title}`,p:`次回アクション ${fmtD(d.nextDate)}（${d.nextAction||"未設定"}）`,b:`<span class="badge red">要対応</span>`,fn:`openDealDetail('${d.id}')`});
+  });
+  DB.deals.filter(d=>d.stage==="配布中").slice(0,4).forEach(d=>{
+    todos.push({t:`${cname(d.customerId)}：配布実績の記録`,p:"配布完了後に反響分析へ登録して報告書へ。",b:`<span class="badge gold">配布中</span>`,fn:`go('responses')`});
+  });
+  const goodDeals=DB.deals.filter(d=>{const rs=dealResponses(d.id);const c=rs.reduce((s,r)=>s+ +r.copies,0),r=rs.reduce((s,x)=>s+ +x.responses,0);return c>0&&r/c*100>=0.1});
+  goodDeals.slice(0,3).forEach(d=>{
+    todos.push({t:`${cname(d.customerId)}：再提案チャンス`,p:"反響率が基準超え。実績を武器に次回配布を提案。",b:`<span class="badge green">好機</span>`,fn:`openDealDetail('${d.id}')`});
+  });
+
+  const funnel=STAGES.map(s=>({label:s,value:DB.deals.filter(d=>d.stage===s).length,sub:DB.deals.filter(d=>d.stage===s).length+"件"}));
+
+  const actionRows=todos.length?todos.map(t=>`
+    <tr class="clickable" onclick="${t.fn}">
+      <td>${t.b}</td><td>${esc(t.t)}</td><td>${esc(t.p)}</td>
+    </tr>`).join(""):`<tr><td colspan="3"><div class="empty"><strong>対応待ちはありません</strong>案件に次回アクション日を設定すると、期日が来たものがここに並びます。</div></td></tr>`;
+
+  $("#view").innerHTML=`
+  <section class="panel" style="margin-bottom:16px">
+    <div class="panel-head"><div><p class="panel-title">本日対応が必要な案件</p><p class="panel-note">期限・配布中・再提案チャンスを先に確認します。</p></div><span class="badge ${todos.length?'red':'gray'}">${todos.length}件</span></div>
+    <div class="panel-body" style="padding-top:8px">
+      <div style="overflow-x:auto"><table class="table"><thead><tr><th style="width:86px">状態</th><th>案件</th><th>対応内容</th></tr></thead><tbody>${actionRows}</tbody></table></div>
+    </div>
+  </section>
+
+  <div class="metrics">
+    <div class="metric" onclick="go('deals')"><small>今月の新規案件</small><strong>${proposalsThisMonth}<em>件</em></strong><span>案件管理より（${tm.replace("-","/")}）</span></div>
+    <div class="metric m2" onclick="go('deals')"><small>進行中案件</small><strong>${active}<em>件</em></strong><span>ヒアリング〜配布中</span></div>
+    <div class="metric m3" onclick="go('responses')"><small>今月の配布部数</small><strong>${num(distThisMonth)}<em>部</em></strong><span>反響分析の実績記録より</span></div>
+    <div class="metric m4" onclick="go('responses')"><small>累計平均反響率</small><strong>${totC?pct(Math.round(avgCvr*1000)/1000):"—"}</strong><span>反響 ${num(totR)}件 / 配布 ${num(totC)}部</span></div>
+  </div>
+
+  <div class="grid-31">
+    <div class="stack">
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">配布部数と反響率の推移</p><p class="panel-note">直近6ヶ月。棒＝配布部数、線＝反響率(%)。</p></div>
+          <button class="btn-sm" onclick="go('responses')">詳細分析へ</button></div>
+        <div class="panel-body">
+          ${totC?barChart(chartData):`<div class="empty"><strong>まだ実績データがありません</strong>反響分析で配布実績を記録すると、ここに推移が表示されます。<br><br><button class="btn-sm primary" onclick="go('responses')">実績を記録する</button>　<button class="btn-sm" onclick="seedDemo()">デモデータで試す</button></div>`}
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">パイプライン</p><p class="panel-note">ステージ別の案件数。詰まりを見つけて動かす。</p></div></div>
+        <div class="panel-body">${hBars(funnel)}</div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">最近の動き</p><p class="panel-note">直近の登録・更新履歴</p></div></div>
+      <div class="panel-body">
+        <div class="timeline">
+          ${DB.activities.slice(0,12).map(a=>`<div class="timeitem"><b>${fmtD(a.date).slice(5)}</b><span>${esc(a.text)}</span></div>`).join("")||`<p style="color:var(--muted);font-size:12px;margin:0">操作履歴がここに表示されます。</p>`}
+        </div>
+      </div>
+    </section>
+  </div>`;
+};
+
+/* =====================================================
+   顧客管理
+   ===================================================== */
+let custFilter={q:"",status:"",ind:""};
+RENDER.customers=function(){
+  setActions(`<button onclick="exportCSV('customers')">CSV出力</button><button class="primary" onclick="openCustForm()">＋ 顧客を追加</button>`);
+  const list=DB.customers.filter(c=>
+    (!custFilter.q||(c.name+c.contact+c.memo).toLowerCase().includes(custFilter.q.toLowerCase()))&&
+    (!custFilter.status||c.status===custFilter.status)&&
+    (!custFilter.ind||c.industry===custFilter.ind)
+  ).sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||""));
+
+  $("#view").innerHTML=`
+  <section class="panel">
+    <div class="panel-head">
+      <div class="searchbar">
+        <input type="text" placeholder="社名・担当者で検索" value="${esc(custFilter.q)}" oninput="custFilter.q=this.value;RENDER.customers()">
+        <select onchange="custFilter.status=this.value;RENDER.customers()">
+          <option value="">ステータス：すべて</option>${CUST_STATUS.map(s=>`<option ${custFilter.status===s?"selected":""}>${s}</option>`).join("")}</select>
+        <select onchange="custFilter.ind=this.value;RENDER.customers()">
+          <option value="">業種：すべて</option>${INDUSTRIES.map(s=>`<option ${custFilter.ind===s?"selected":""}>${s}</option>`).join("")}</select>
+      </div>
+      <span class="badge gray">${list.length}件</span>
+    </div>
+    <div class="panel-body">
+      ${list.length?`<div style="overflow-x:auto"><table class="table">
+        <thead><tr><th>顧客</th><th>業種</th><th>ステータス</th><th>担当者</th><th>主要エリア</th><th>次回アクション</th><th class="num">案件数</th></tr></thead>
+        <tbody>${list.map(c=>{
+          const dn=DB.deals.filter(d=>d.customerId===c.id).length;
+          const next=DB.deals.filter(d=>d.customerId===c.id&&d.nextDate&&d.stage!=="報告・反響").sort((a,b)=>a.nextDate.localeCompare(b.nextDate))[0];
+          return`<tr class="clickable" onclick="openCustDetail('${c.id}')">
+            <td>${esc(c.name)}</td><td>${esc(c.industry||"—")}</td>
+            <td><span class="badge ${CUST_COLORS[c.status]||"gray"}">${esc(c.status)}</span></td>
+            <td>${esc(c.contact||"—")}</td><td>${esc((c.areas||[]).slice(0,2).join("、")||"—")}</td>
+            <td>${next?fmtD(next.nextDate)+"　"+esc(next.nextAction||""):"—"}</td>
+            <td class="num">${dn}</td></tr>`}).join("")}</tbody></table></div>`
+      :`<div class="empty"><strong>顧客がまだ登録されていません</strong>「＋ 顧客を追加」から登録すると、案件・提案書・反響データが顧客に紐づきます。<br><br><button class="btn-sm" onclick="seedDemo()">デモデータで動きを見る</button></div>`}
+    </div>
+  </section>`;
+};
+
+function custFormHTML(c={}){
+  return`
+  <div class="frow c2">
+    <div><label class="f">社名 *</label><input id="cf_name" type="text" value="${esc(c.name||"")}" placeholder="例：買取大吉 板橋店"></div>
+    <div><label class="f">業種</label><select id="cf_ind">${INDUSTRIES.map(i=>`<option ${c.industry===i?"selected":""}>${i}</option>`).join("")}</select></div>
+  </div>
+  <div class="frow c3">
+    <div><label class="f">ステータス</label><select id="cf_status">${CUST_STATUS.map(s=>`<option ${c.status===s?"selected":""}>${s}</option>`).join("")}</select></div>
+    <div><label class="f">担当者</label><input id="cf_contact" type="text" value="${esc(c.contact||"")}"></div>
+    <div><label class="f">電話</label><input id="cf_tel" type="tel" value="${esc(c.tel||"")}"></div>
+  </div>
+  <div class="frow"><label class="f">主要エリア（クリックで選択）</label>
+    <div class="chips" id="cf_areas">${WARDS.map(w=>`<span class="chip ${(c.areas||[]).includes(w)?"on":""}" onclick="this.classList.toggle('on')">${w}</span>`).join("")}</div></div>
+  <div class="frow"><label class="f">メモ</label><textarea id="cf_memo">${esc(c.memo||"")}</textarea></div>`;
+}
+function openCustForm(id){
+  const c=id?DB.customers.find(x=>x.id===id):{};
+  openModal(id?"顧客を編集":"顧客を追加",custFormHTML(c),`
+    ${id?`<button class="ghost-danger" onclick="delCust('${id}')">削除</button>`:""}
+    <div class="right"><button onclick="closeModal()">キャンセル</button>
+    <button class="primary" onclick="saveCust('${id||""}')">保存する</button></div>`);
+}
+function saveCust(id){
+  const name=$("#cf_name").value.trim();
+  if(!name)return toast("社名を入力してください");
+  const areas=[...document.querySelectorAll("#cf_areas .chip.on")].map(x=>x.textContent);
+  const obj={name,industry:$("#cf_ind").value,status:$("#cf_status").value,contact:$("#cf_contact").value.trim(),tel:$("#cf_tel").value.trim(),areas,memo:$("#cf_memo").value.trim()};
+  if(id){Object.assign(DB.customers.find(x=>x.id===id),obj);logAct(`顧客「${name}」を更新`)}
+  else{DB.customers.unshift({id:uid(),createdAt:today(),...obj});logAct(`顧客「${name}」を登録`)}
+  save();closeModal();RENDER[CURRENT]();toast("保存しました");
+}
+function delCust(id){
+  const c=DB.customers.find(x=>x.id===id);
+  if(!confirm(`「${c.name}」を削除しますか？\n紐づく案件・反響データも削除されます。`))return;
+  const dealIds=DB.deals.filter(d=>d.customerId===id).map(d=>d.id);
+  DB.deals=DB.deals.filter(d=>d.customerId!==id);
+  DB.responses=DB.responses.filter(r=>!dealIds.includes(r.dealId));
+  DB.customers=DB.customers.filter(x=>x.id!==id);
+  logAct(`顧客「${c.name}」を削除`);save();closeModal();RENDER[CURRENT]();toast("削除しました");
+}
+function openCustDetail(id){
+  const c=DB.customers.find(x=>x.id===id);if(!c)return;
+  const deals=DB.deals.filter(d=>d.customerId===id);
+  const rs=DB.responses.filter(r=>deals.some(d=>d.id===r.dealId));
+  const totC=rs.reduce((s,r)=>s+ +r.copies,0),totR=rs.reduce((s,r)=>s+ +r.responses,0);
+  const bench=BENCH[c.industry]||BENCH["その他"];
+  openModal(c.name,`
+    <div class="dfield"><b>業種</b><span>${esc(c.industry||"—")}　<span class="badge ${CUST_COLORS[c.status]}">${esc(c.status)}</span></span></div>
+    <div class="dfield"><b>担当者</b><span>${esc(c.contact||"—")}　${esc(c.tel||"")}</span></div>
+    <div class="dfield"><b>主要エリア</b><span>${esc((c.areas||[]).join("、")||"—")}</span></div>
+    <div class="dfield"><b>累計実績</b><span>配布 ${num(totC)}部 ／ 反響 ${num(totR)}件 ／ 反響率 ${totC?pct(Math.round(totR/totC*100*1000)/1000):"—"}</span></div>
+    <div class="dfield"><b>業種目安</b><span>反響率 ${bench[0]}〜${bench[1]}%　<span style="color:var(--muted);font-size:12px">${esc(bench[2])}</span></span></div>
+    <div class="dfield"><b>メモ</b><span>${esc(c.memo||"—")}</span></div>
+    <h4 style="margin:16px 0 8px;font-size:13px">案件（${deals.length}）</h4>
+    ${deals.length?deals.map(d=>`<div class="kcard" style="margin-bottom:8px;cursor:pointer" onclick="closeModal();openDealDetail('${d.id}')">
+      <div style="display:flex;justify-content:space-between"><h4>${esc(d.title)}</h4><span class="badge ${STAGE_COLORS[d.stage]}">${esc(d.stage)}</span></div>
+      <p>${num(d.copies)}部 ／ ${esc((d.areas||[]).join("、"))} ／ ${yen(d.price)}</p></div>`).join("")
+    :`<p style="color:var(--muted);font-size:12px">案件はまだありません。</p>`}`,`
+    <button onclick="openCustForm('${id}')">編集</button>
+    <div class="right">
+      <button onclick="closeModal();openDealForm(null,'${id}')">＋ 案件を作成</button>
+      <button class="primary" onclick="closeModal();go('proposal');setTimeout(()=>{$('#pp_cust').value='${id}';ppSyncFromCustomer()},50)">この顧客で提案書を作る</button>
+    </div>`);
+}
+
+/* =====================================================
+   案件管理（カンバン）
+   ===================================================== */
+let dealViewMode="kanban";
+RENDER.deals=function(){
+  setActions(`
+    <button onclick="dealViewMode=dealViewMode==='kanban'?'list':'kanban';RENDER.deals()">${dealViewMode==="kanban"?"リスト表示":"カンバン表示"}</button>
+    <button onclick="exportCSV('deals')">CSV出力</button>
+    <button class="primary" onclick="openDealForm()">＋ 案件を追加</button>`);
+  if(dealViewMode==="kanban")renderKanban();else renderDealList();
+};
+function dealCard(d){
+  const rs=dealResponses(d.id);
+  const c=rs.reduce((s,r)=>s+ +r.copies,0),r=rs.reduce((s,x)=>s+ +x.responses,0);
+  return`<div class="kcard" draggable="true" ondragstart="dragDeal(event,'${d.id}')" onclick="openDealDetail('${d.id}')">
+    <h4>${esc(d.title)}</h4>
+    <p>${esc(cname(d.customerId))}<br>${num(d.copies)}部 ／ ${esc(d.size)} ／ ${esc((d.areas||[]).slice(0,2).join("、")||"エリア未定")}</p>
+    <div class="kfoot"><b>${yen(d.price)}</b>
+      ${c?`<span class="badge green">${pct(Math.round(r/c*100*1000)/1000)}</span>`
+        :d.nextDate&&d.nextDate<=today()?`<span class="badge red">期日</span>`
+        :d.nextDate?`<span class="badge gray">${fmtD(d.nextDate).slice(5)}</span>`:""}
+    </div></div>`;
+}
+function renderKanban(){
+  $("#view").innerHTML=`<div class="kanban">${STAGES.map(s=>{
+    const items=DB.deals.filter(d=>d.stage===s);
+    const sum=items.reduce((a,d)=>a+(+d.price||0),0);
+    return`<div class="kcol" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="dropDeal(event,'${s}');this.classList.remove('dragover')">
+      <div class="kcol-h"><span>${s}</span><span class="cnt">${items.length}件 ${sum?("／"+yen(sum)):""}</span></div>
+      <div class="kcol-b">${items.map(dealCard).join("")||`<p style="color:#a5aebb;font-size:11px;text-align:center;margin:14px 0">ここにドラッグ</p>`}</div>
+    </div>`}).join("")}</div>
+  <p style="color:var(--muted);font-size:12px;margin-top:10px">カードをドラッグしてステージを移動。クリックで詳細・提案書・報告書へ。</p>`;
+}
+function renderDealList(){
+  const list=[...DB.deals].sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||""));
+  $("#view").innerHTML=`<section class="panel"><div class="panel-body">
+    ${list.length?`<div style="overflow-x:auto"><table class="table">
+    <thead><tr><th>案件</th><th>顧客</th><th>ステージ</th><th class="num">部数</th><th>エリア</th><th class="num">金額</th><th>配布期間</th><th>次回</th></tr></thead>
+    <tbody>${list.map(d=>`<tr class="clickable" onclick="openDealDetail('${d.id}')">
+      <td>${esc(d.title)}</td><td>${esc(cname(d.customerId))}</td>
+      <td><span class="badge ${STAGE_COLORS[d.stage]}">${esc(d.stage)}</span></td>
+      <td class="num">${num(d.copies)}</td><td>${esc((d.areas||[]).join("、")||"—")}</td>
+      <td class="num">${yen(d.price)}</td><td>${fmtD(d.startDate)}〜${fmtD(d.endDate)}</td>
+      <td>${d.nextDate?fmtD(d.nextDate):"—"}</td></tr>`).join("")}</tbody></table></div>`
+    :`<div class="empty"><strong>案件がまだありません</strong>顧客に紐づけて案件を作ると、提案→受注→配布→報告まで一気通貫で管理できます。</div>`}
+  </div></section>`;
+}
+let dragId=null;
+function dragDeal(e,id){dragId=id;e.dataTransfer.effectAllowed="move"}
+function dropDeal(e,stage){
+  e.preventDefault();
+  const d=deal(dragId);if(!d||d.stage===stage)return;
+  d.stage=stage;logAct(`案件「${d.title}」を「${stage}」へ移動`);save();renderKanban();toast(`「${stage}」へ移動しました`);
+}
+function dealFormHTML(d={}){
+  return`
+  <div class="frow c2">
+    <div><label class="f">顧客 *</label><select id="df_cust">
+      <option value="">選択してください</option>
+      ${DB.customers.map(c=>`<option value="${c.id}" ${d.customerId===c.id?"selected":""}>${esc(c.name)}</option>`).join("")}</select></div>
+    <div><label class="f">案件名 *</label><input id="df_title" type="text" value="${esc(d.title||"")}" placeholder="例：3月新聞折込チラシ 板橋10万部"></div>
+  </div>
+  <div class="frow c4">
+    <div><label class="f">ステージ</label><select id="df_stage">${STAGES.map(s=>`<option ${d.stage===s?"selected":""}>${s}</option>`).join("")}</select></div>
+    <div><label class="f">配布部数</label><input id="df_copies" type="number" value="${d.copies||10000}" min="0" step="1000" oninput="dfPrice()"></div>
+    <div><label class="f">サイズ</label><select id="df_size" onchange="dfPrice()">${SIZES.map(s=>`<option ${d.size===s?"selected":""}>${s}</option>`).join("")}</select></div>
+    <div><label class="f">配布方法</label><select id="df_method" onchange="dfPrice()">${METHODS.map(s=>`<option ${d.method===s?"selected":""}>${s}</option>`).join("")}</select></div>
+  </div>
+  <div class="frow c3">
+    <div><label class="f">金額（自動計算・手修正可）</label><input id="df_price" type="number" value="${d.price||""}" min="0"></div>
+    <div><label class="f">配布開始</label><input id="df_start" type="date" value="${d.startDate||""}"></div>
+    <div><label class="f">配布終了</label><input id="df_end" type="date" value="${d.endDate||""}"></div>
+  </div>
+  <div class="frow c2">
+    <div><label class="f">次回アクション日</label><input id="df_nextd" type="date" value="${d.nextDate||""}"></div>
+    <div><label class="f">次回アクション内容</label><input id="df_nexta" type="text" value="${esc(d.nextAction||"")}" placeholder="例：見積送付 / 反響報告の訪問"></div>
+  </div>
+  <div class="frow"><label class="f">配布エリア</label>
+    <div class="chips" id="df_areas">${WARDS.map(w=>`<span class="chip ${(d.areas||[]).includes(w)?"on":""}" onclick="this.classList.toggle('on')">${w}</span>`).join("")}</div></div>
+  <div class="frow"><label class="f">メモ</label><textarea id="df_memo">${esc(d.memo||"")}</textarea></div>`;
+}
+function dfPrice(){
+  const v=calcPrice($("#df_method").value,$("#df_size").value,+$("#df_copies").value);
+  $("#df_price").value=Math.round(v);
+}
+function openDealForm(id,presetCust){
+  if(!DB.customers.length){toast("先に顧客を登録してください");go("customers");openCustForm();return}
+  const d=id?deal(id):{customerId:presetCust};
+  openModal(id?"案件を編集":"案件を追加",dealFormHTML(d),`
+    ${id?`<button class="ghost-danger" onclick="delDeal('${id}')">削除</button>`:""}
+    <div class="right"><button onclick="closeModal()">キャンセル</button>
+    <button class="primary" onclick="saveDeal('${id||""}')">保存する</button></div>`,true);
+  if(!id)dfPrice();
+}
+function saveDeal(id){
+  const customerId=$("#df_cust").value,title=$("#df_title").value.trim();
+  if(!customerId)return toast("顧客を選択してください");
+  if(!title)return toast("案件名を入力してください");
+  const areas=[...document.querySelectorAll("#df_areas .chip.on")].map(x=>x.textContent);
+  const obj={customerId,title,stage:$("#df_stage").value,copies:+$("#df_copies").value||0,size:$("#df_size").value,method:$("#df_method").value,price:+$("#df_price").value||0,startDate:$("#df_start").value,endDate:$("#df_end").value,nextDate:$("#df_nextd").value,nextAction:$("#df_nexta").value.trim(),areas,memo:$("#df_memo").value.trim()};
+  if(id){Object.assign(deal(id),obj);logAct(`案件「${title}」を更新`)}
+  else{DB.deals.unshift({id:uid(),createdAt:today(),...obj});logAct(`案件「${title}」を作成（${cname(customerId)}）`)}
+  save();closeModal();RENDER[CURRENT]();toast("保存しました");
+}
+function delDeal(id){
+  const d=deal(id);
+  if(!confirm(`「${d.title}」を削除しますか？（反響記録も削除されます）`))return;
+  DB.deals=DB.deals.filter(x=>x.id!==id);
+  DB.responses=DB.responses.filter(r=>r.dealId!==id);
+  logAct(`案件「${d.title}」を削除`);save();closeModal();RENDER[CURRENT]();toast("削除しました");
+}
+function openDealDetail(id){
+  const d=deal(id);if(!d)return;
+  const rs=dealResponses(id).sort((a,b)=>a.date.localeCompare(b.date));
+  const totC=rs.reduce((s,r)=>s+ +r.copies,0),totR=rs.reduce((s,r)=>s+ +r.responses,0);
+  const cust=DB.customers.find(c=>c.id===d.customerId)||{};
+  const bench=BENCH[cust.industry]||BENCH["その他"];
+  const cvr=totC?totR/totC*100:0;
+  openModal(d.title,`
+    <div class="dfield"><b>顧客</b><span>${esc(cname(d.customerId))}（${esc(cust.industry||"—")}）</span></div>
+    <div class="dfield"><b>ステージ</b><span><span class="badge ${STAGE_COLORS[d.stage]}">${esc(d.stage)}</span></span></div>
+    <div class="dfield"><b>配布条件</b><span>${num(d.copies)}部 ／ ${esc(d.size)} ／ ${esc(d.method)} ／ ${esc((d.areas||[]).join("、")||"—")}</span></div>
+    <div class="dfield"><b>金額</b><span>${yen(d.price)}（税別）</span></div>
+    <div class="dfield"><b>配布期間</b><span>${fmtD(d.startDate)} 〜 ${fmtD(d.endDate)}</span></div>
+    <div class="dfield"><b>次回</b><span>${d.nextDate?fmtD(d.nextDate)+"　"+esc(d.nextAction||""):"—"}</span></div>
+    <div class="dfield"><b>実績</b><span>配布 ${num(totC)}部 ／ 反響 ${num(totR)}件 ／ 反響率 <b style="color:${cvr>=bench[0]?"var(--success)":"var(--danger)"}">${totC?pct(Math.round(cvr*1000)/1000):"—"}</b>　<span style="color:var(--muted);font-size:11.5px">業種目安 ${bench[0]}〜${bench[1]}%</span></span></div>
+    <div class="dfield"><b>メモ</b><span>${esc(d.memo||"—")}</span></div>
+    ${rs.length?`<h4 style="margin:14px 0 6px;font-size:13px">反響記録</h4>
+      <table class="kv"><tr><th>日付</th><th>エリア</th><th>配布</th><th>反響</th><th>率</th></tr>
+      ${rs.map(r=>`<tr><td>${fmtD(r.date)}</td><td>${esc(r.area)}</td><td class="num">${num(r.copies)}</td><td class="num">${num(r.responses)}</td><td class="num">${r.copies?pct(Math.round(r.responses/r.copies*100*1000)/1000):"—"}</td></tr>`).join("")}</table>`:""}
+  `,`
+    <button onclick="openDealForm('${id}')">編集</button>
+    <div class="right">
+      <button onclick="closeModal();go('responses');setTimeout(()=>{const s=$('#rf_deal');if(s)s.value='${id}'},50)">反響を記録</button>
+      ${totC?`<button onclick="printReport('${id}')">反響報告書</button>`:""}
+      <button class="primary" onclick="printProposalFromDeal('${id}')">提案書を出力</button>
+    </div>`,true);
+}
+
+/* =====================================================
+   提案書ジェネレーター
+   ===================================================== */
+RENDER.proposal=function(){
+  setActions(`<button onclick="go('navi')">営業ナビを見る</button>`);
+  $("#view").innerHTML=`
+  <div class="grid-2">
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">提案条件</p><p class="panel-note">入力するとリアルタイムで見積・反響予測が更新されます。</p></div></div>
+      <div class="panel-body">
+        <div class="frow c2">
+          <div><label class="f">顧客</label><select id="pp_cust" onchange="ppSyncFromCustomer()">
+            <option value="">（未選択＝新規見込み客）</option>
+            ${DB.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></div>
+          <div><label class="f">宛名（顧客未登録時）</label><input id="pp_custname" type="text" placeholder="例：〇〇不動産株式会社"></div>
+        </div>
+        <div class="frow c2">
+          <div><label class="f">業種</label><select id="pp_ind" onchange="ppCalc()">${INDUSTRIES.map(i=>`<option>${i}</option>`).join("")}</select></div>
+          <div><label class="f">提案タイトル</label><input id="pp_title" type="text" placeholder="空欄なら自動生成" oninput="ppCalc()"></div>
+        </div>
+        <div class="frow c4">
+          <div><label class="f">配布部数</label><input id="pp_copies" type="number" value="30000" step="1000" min="0" oninput="ppCalc()"></div>
+          <div><label class="f">サイズ</label><select id="pp_size" onchange="ppCalc()">${SIZES.map(s=>`<option ${s==="A4"?"selected":""}>${s}</option>`).join("")}</select></div>
+          <div><label class="f">配布方法</label><select id="pp_method" onchange="ppCalc()">${METHODS.map(s=>`<option>${s}</option>`).join("")}</select></div>
+          <div><label class="f">配布期間(日)</label><input id="pp_days" type="number" value="14" min="1" oninput="ppCalc()"></div>
+        </div>
+        <div class="frow"><label class="f">配布エリア</label>
+          <div class="chips" id="pp_areas">${WARDS.map(w=>`<span class="chip" onclick="this.classList.toggle('on');ppCalc()">${w}</span>`).join("")}</div></div>
+        <div class="frow c2">
+          <div><label class="f">提案目的</label><input id="pp_goal" type="text" placeholder="例：来店予約の獲得 / 開店告知" oninput="ppCalc()"></div>
+          <div><label class="f">訴求軸</label><input id="pp_axis" type="text" placeholder="例：期間限定クーポン / 地域密着の安心感" oninput="ppCalc()"></div>
+        </div>
+        <div class="frow"><label class="f">オプション</label>
+          <div class="chips" id="pp_opts">
+            <span class="chip" data-opt="デザイン制作（別途お見積り）" onclick="this.classList.toggle('on');ppCalc()">デザイン制作</span>
+            <span class="chip" data-opt="印刷手配（部数・紙質により変動）" onclick="this.classList.toggle('on');ppCalc()">印刷手配</span>
+            <span class="chip" data-opt="GPS配布記録レポート" onclick="this.classList.toggle('on');ppCalc()">GPSレポート</span>
+            <span class="chip" data-opt="反響測定・報告書の提出" onclick="this.classList.toggle('on');ppCalc()">反響報告</span>
+          </div></div>
+      </div>
+    </section>
+
+    <div class="stack">
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">見積・反響予測</p><p class="panel-note">単価マスタと業種ベンチマークから自動算出。</p></div></div>
+        <div class="panel-body" id="pp_calcbox"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">出力</p></div></div>
+        <div class="panel-body">
+          <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px;line-height:1.7">A4・3ページ構成の提案書を生成します。印刷ダイアログから「PDFとして保存」でそのまま送付できます。</p>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <button class="primary" onclick="printProposal()">提案書をプレビュー / PDF出力</button>
+            <button onclick="saveProposalAsDeal()">この条件で案件として保存</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+  ppCalc();
+};
+function ppSyncFromCustomer(){
+  const c=DB.customers.find(x=>x.id===$("#pp_cust").value);
+  if(c){
+    $("#pp_ind").value=c.industry||"その他";
+    document.querySelectorAll("#pp_areas .chip").forEach(ch=>ch.classList.toggle("on",(c.areas||[]).includes(ch.textContent)));
+  }
+  ppCalc();
+}
+function ppData(){
+  const custId=$("#pp_cust").value;
+  const cust=DB.customers.find(x=>x.id===custId);
+  const areas=[...document.querySelectorAll("#pp_areas .chip.on")].map(x=>x.textContent);
+  const opts=[...document.querySelectorAll("#pp_opts .chip.on")].map(x=>x.dataset.opt);
+  const ind=$("#pp_ind").value,copies=+$("#pp_copies").value||0;
+  const size=$("#pp_size").value,method=$("#pp_method").value,days=+$("#pp_days").value||14;
+  const unit=(DB.settings.prices[method]||{})[size]||0;
+  const price=unit*copies;
+  const bench=BENCH[ind]||BENCH["その他"];
+  return{
+    custId,custName:cust?cust.name:($("#pp_custname").value.trim()||"お客様"),
+    ind,copies,size,method,days,unit,price,bench,areas,opts,
+    goal:$("#pp_goal").value.trim(),axis:$("#pp_axis").value.trim(),
+    title:$("#pp_title").value.trim()||`${areas[0]||"東京23区"}エリア ポスティング配布のご提案`,
+    lo:Math.round(copies*bench[0]/100),hi:Math.round(copies*bench[1]/100),
+  };
+}
+function ppCalc(){
+  const p=ppData();
+  const cpl=p.hi?p.price/((p.lo+p.hi)/2):0; // 反響1件あたりコスト(中央値)
+  $("#pp_calcbox").innerHTML=`
+    <div class="doc-hero" style="margin-bottom:14px">
+      <div><small>配布金額（税別）</small><b>${yen(p.price)}</b></div>
+      <div><small>予測反響数</small><b>${p.copies?num(p.lo)+"〜"+num(p.hi)+"件":"—"}</b></div>
+      <div><small>反響1件あたり</small><b>${cpl?"約"+yen(cpl):"—"}</b></div>
+    </div>
+    <table class="kv">
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>単価</td><td class="num">${p.unit}円/枚（${esc(p.method)}・${esc(p.size)}）</td></tr>
+      <tr><td>部数</td><td class="num">${num(p.copies)}部</td></tr>
+      <tr><td>エリア</td><td>${esc(p.areas.join("、")||"未選択")}</td></tr>
+      <tr><td>反響率目安</td><td class="num">${p.bench[0]}〜${p.bench[1]}%（${esc(p.ind)}）</td></tr>
+    </table>
+    <p style="font-size:11.5px;color:var(--muted);margin:10px 0 0;line-height:1.7">${esc(p.bench[2])}</p>`;
+}
+function saveProposalAsDeal(){
+  const p=ppData();
+  if(!p.custId){toast("案件保存には顧客の選択が必要です");return}
+  DB.deals.unshift({id:uid(),createdAt:today(),customerId:p.custId,title:p.title,stage:"提案中",copies:p.copies,size:p.size,method:p.method,price:p.price,startDate:"",endDate:"",nextDate:today(),nextAction:"提案書を送付",areas:p.areas,memo:`目的：${p.goal}／訴求軸：${p.axis}／OP：${p.opts.join("・")}`});
+  logAct(`提案「${p.title}」を案件登録（${p.custName}）`);
+  save();toast("案件として保存しました");
+}
+
+/* ---- 提案書ドキュメント生成 ---- */
+function proposalDocHTML(p){
+  const s=DB.settings;
+  const dt=fmtD(today());
+  const perArea=p.areas.length?Math.round(p.copies/p.areas.length):p.copies;
+  const cpl=(p.lo+p.hi)?p.price/((p.lo+p.hi)/2):0;
+  const flow=["お申し込み","エリア・部数の確定","印刷物のご入稿","配布スタッフ手配","配布実施（GPS記録）","完了報告・反響測定"];
+  return`
+  <!-- 表紙 -->
+  <div class="doc"><div class="side"></div>
+    <div style="margin-top:38mm">
+      <div class="doc-eyebrow">POSTING PROPOSAL</div>
+      <h1 class="dt">${esc(p.title)}</h1>
+      <p class="dl" style="font-size:14px">${esc(p.custName)} 御中</p>
+    </div>
+    <div class="doc-meta">
+      提出日：${dt}<br>
+      ${esc(s.company)}<br>
+      ${esc(s.person?("担当："+s.person):"")}　${esc(s.tel||"")}<br>${esc(s.mail||"")}
+    </div>
+    <div class="doc-foot"><span>${esc(s.company)}</span><span>1 / 3</span></div>
+  </div>
+
+  <!-- 提案内容 -->
+  <div class="doc"><div class="side"></div>
+    <div class="doc-eyebrow">PLAN</div>
+    <h2 class="ds" style="margin-top:0">ご提案の狙い</h2>
+    <p class="dl">${esc(p.goal||"貴社サービスの認知拡大と問い合わせ獲得")}を目的に、${esc(p.areas.join("・")||"東京23区内")}エリアへのポスティング配布をご提案します。訴求軸は「${esc(p.axis||"地域密着の信頼感")}」。${esc(p.ind)}の反響傾向を踏まえ、無駄打ちのないエリア設計で費用対効果を最大化します。</p>
+
+    <h2 class="ds">配布プラン</h2>
+    <table class="dtable">
+      <tr><th style="width:28%">項目</th><th>内容</th></tr>
+      <tr><td>配布エリア</td><td>${esc(p.areas.join("、")||"ご相談のうえ確定")}${p.areas.length>1?`（各エリア約${num(perArea)}部）`:""}</td></tr>
+      <tr><td>配布部数</td><td class="num">${num(p.copies)} 部</td></tr>
+      <tr><td>配布方法</td><td>${esc(p.method)}</td></tr>
+      <tr><td>チラシサイズ</td><td>${esc(p.size)}</td></tr>
+      <tr><td>配布期間</td><td>約 ${p.days} 日間（開始日はご相談）</td></tr>
+      <tr><td>オプション</td><td>${esc(p.opts.join("／")||"—")}</td></tr>
+    </table>
+
+    <h2 class="ds">お見積り</h2>
+    <table class="dtable">
+      <tr><th>項目</th><th style="width:18%">単価</th><th style="width:18%">数量</th><th style="width:22%">金額（税別）</th></tr>
+      <tr><td>ポスティング配布（${esc(p.method)}・${esc(p.size)}）</td><td class="num">${p.unit}円/枚</td><td class="num">${num(p.copies)}部</td><td class="num">${yen(p.price)}</td></tr>
+      ${p.opts.map(o=>`<tr><td>${esc(o)}</td><td class="num">—</td><td class="num">—</td><td class="num">別途お見積り</td></tr>`).join("")}
+      <tr class="total"><td colspan="3">配布費 合計（税別）</td><td class="num">${yen(p.price)}</td></tr>
+    </table>
+    <p class="doc-note">※ 配布不可物件（チラシ投函禁止・管理制限など）を除いた実配布となります。※ 天候・物件状況により期間が前後する場合があります。</p>
+    <div class="doc-foot"><span>${esc(s.company)}</span><span>2 / 3</span></div>
+  </div>
+
+  <!-- 反響予測・体制 -->
+  <div class="doc"><div class="side"></div>
+    <div class="doc-eyebrow">FORECAST & SUPPORT</div>
+    <h2 class="ds" style="margin-top:0">反響予測</h2>
+    <div class="doc-hero">
+      <div><small>業種別 反響率目安</small><b>${p.bench[0]}〜${p.bench[1]}%</b></div>
+      <div><small>予測反響数</small><b>${num(p.lo)}〜${num(p.hi)} 件</b></div>
+      <div><small>反響1件あたり</small><b>${cpl?"約 "+yen(cpl):"—"}</b></div>
+    </div>
+    <p class="doc-note">※ ${esc(p.ind)}業種の一般的な反響率レンジに基づく試算です。${esc(p.bench[2])}。</p>
+
+    <h2 class="ds">実施の流れ</h2>
+    <table class="dtable"><tr>${flow.map((f,i)=>`<th style="text-align:center">${i+1}</th>`).join("")}</tr>
+      <tr>${flow.map(f=>`<td style="text-align:center;font-size:11px">${f}</td>`).join("")}</tr></table>
+
+    <h2 class="ds">当社が選ばれる理由</h2>
+    <p class="dl">
+      <b>1. GPSによる配布記録</b>　配布スタッフの稼働をGPSで記録し、実施エリアを可視化。「本当に配られたのか」の不安を解消します。<br><br>
+      <b>2. 禁止物件データベース</b>　クレームにつながる投函禁止物件を独自データベースで管理。ブランド毀損リスクを最小化します。<br><br>
+      <b>3. 反響測定と改善提案</b>　配布後の反響データを分析し、次回のエリア・クリエイティブ改善までご提案。「配って終わり」にしません。
+    </p>
+    <div class="doc-foot"><span>${esc(s.company)}</span><span>3 / 3</span></div>
+  </div>`;
+}
+function printProposal(){
+  const p=ppData();
+  if(!p.copies)return toast("配布部数を入力してください");
+  openPrint("提案書プレビュー",proposalDocHTML(p));
+  logAct(`提案書を出力（${p.custName}／${num(p.copies)}部）`);save();
+}
+function printProposalFromDeal(id){
+  const d=deal(id);const cust=DB.customers.find(c=>c.id===d.customerId)||{};
+  const bench=BENCH[cust.industry]||BENCH["その他"];
+  const unit=(DB.settings.prices[d.method]||{})[d.size]||0;
+  const p={custName:cust.name||"お客様",ind:cust.industry||"その他",copies:d.copies,size:d.size,method:d.method,days:14,unit,price:d.price||unit*d.copies,bench,areas:d.areas||[],opts:[],goal:"",axis:"",title:d.title,lo:Math.round(d.copies*bench[0]/100),hi:Math.round(d.copies*bench[1]/100)};
+  closeModal();openPrint("提案書プレビュー",proposalDocHTML(p));
+}
+
+/* ---- 反響報告書 ---- */
+function printReport(id){
+  const d=deal(id);const cust=DB.customers.find(c=>c.id===d.customerId)||{};
+  const rs=dealResponses(id).sort((a,b)=>a.date.localeCompare(b.date));
+  const totC=rs.reduce((s,r)=>s+ +r.copies,0),totR=rs.reduce((s,r)=>s+ +r.responses,0);
+  const cvr=totC?totR/totC*100:0;
+  const bench=BENCH[cust.industry]||BENCH["その他"];
+  const byArea={};rs.forEach(r=>{byArea[r.area]=byArea[r.area]||{c:0,r:0};byArea[r.area].c+= +r.copies;byArea[r.area].r+= +r.responses});
+  const areaRows=Object.entries(byArea).sort((a,b)=>b[1].r/b[1].c-a[1].r/a[1].c);
+  const best=areaRows[0];
+  const s=DB.settings;
+  const verdict=cvr>=bench[1]?"業種目安の上限を上回る好結果":cvr>=bench[0]?"業種目安レンジ内の標準的な結果":"業種目安をやや下回る結果";
+  const advice=cvr>=bench[0]
+    ?`反響の取れた${best?best[0]:"エリア"}を軸に部数を厚くし、同条件での継続配布をおすすめします。`
+    :`エリアと訴求内容の見直しをおすすめします。反響率の高かった${best?best[0]:"エリア"}に絞った再配布、またはクリエイティブの訴求軸変更をご提案します。`;
+  closeModal();
+  openPrint("反響報告書プレビュー",`
+  <div class="doc"><div class="side"></div>
+    <div class="doc-eyebrow">DISTRIBUTION REPORT</div>
+    <h1 class="dt" style="font-size:24px">ポスティング配布 反響報告書</h1>
+    <p class="dl">${esc(cust.name||"お客様")} 御中　／　案件：${esc(d.title)}　／　報告日：${fmtD(today())}</p>
+
+    <h2 class="ds">実施サマリー</h2>
+    <div class="doc-hero">
+      <div><small>配布部数</small><b>${num(totC)} 部</b></div>
+      <div><small>反響数</small><b>${num(totR)} 件</b></div>
+      <div><small>反響率</small><b>${pct(Math.round(cvr*1000)/1000)}</b></div>
+    </div>
+    <p class="doc-note">業種目安（${esc(cust.industry||"—")}）：${bench[0]}〜${bench[1]}%　→　<b>${verdict}</b></p>
+
+    <h2 class="ds">エリア別内訳</h2>
+    <table class="dtable">
+      <tr><th>エリア</th><th style="width:18%">配布部数</th><th style="width:18%">反響数</th><th style="width:18%">反響率</th></tr>
+      ${areaRows.map(([a,v])=>`<tr><td>${esc(a)}</td><td class="num">${num(v.c)}</td><td class="num">${num(v.r)}</td><td class="num">${v.c?pct(Math.round(v.r/v.c*100*1000)/1000):"—"}</td></tr>`).join("")}
+      <tr class="total"><td>合計</td><td class="num">${num(totC)}</td><td class="num">${num(totR)}</td><td class="num">${pct(Math.round(cvr*1000)/1000)}</td></tr>
+    </table>
+
+    <h2 class="ds">明細</h2>
+    <table class="dtable">
+      <tr><th>配布日</th><th>エリア</th><th>配布部数</th><th>反響数</th><th>備考</th></tr>
+      ${rs.map(r=>`<tr><td>${fmtD(r.date)}</td><td>${esc(r.area)}</td><td class="num">${num(r.copies)}</td><td class="num">${num(r.responses)}</td><td style="font-size:10.5px">${esc(r.memo||"")}</td></tr>`).join("")}
+    </table>
+
+    <h2 class="ds">次回に向けたご提案</h2>
+    <p class="dl">${advice}</p>
+    <div class="doc-foot"><span>${esc(s.company)}</span><span>1 / 1</span></div>
+  </div>`);
+  logAct(`反響報告書を出力（${d.title}）`);save();
+}
+
+/* =====================================================
+   クリエイティブ
+   ===================================================== */
+let creaFilter={q:"",ind:""};
+RENDER.creatives=function(){
+  setActions(`<button class="primary" onclick="openCreaForm()">＋ クリエイティブを登録</button>`);
+  const list=DB.creatives.filter(c=>
+    (!creaFilter.q||(c.name+(c.tags||[]).join("")).toLowerCase().includes(creaFilter.q.toLowerCase()))&&
+    (!creaFilter.ind||c.industry===creaFilter.ind));
+  $("#view").innerHTML=`
+  <section class="panel" style="margin-bottom:16px"><div class="panel-head">
+    <div class="searchbar">
+      <input type="text" placeholder="名称・タグで検索" value="${esc(creaFilter.q)}" oninput="creaFilter.q=this.value;RENDER.creatives()">
+      <select onchange="creaFilter.ind=this.value;RENDER.creatives()">
+        <option value="">業種：すべて</option>${INDUSTRIES.map(s=>`<option ${creaFilter.ind===s?"selected":""}>${s}</option>`).join("")}</select>
+    </div><span class="badge gray">${list.length}点</span></div></section>
+  ${list.length?`<div class="cards">${list.sort((a,b)=>(b.cvr||0)-(a.cvr||0)).map(c=>`
+    <div class="ccard" onclick="openCreaForm('${c.id}')">
+      <div class="cthumb">${c.img?`<img src="${c.img}" alt="">`:"NO IMAGE"}</div>
+      <div class="cbody">
+        <h4>${esc(c.name)}</h4>
+        <p>${esc(c.industry||"—")} ／ ${esc(c.size||"—")}<br>${(c.tags||[]).map(t=>`#${esc(t)}`).join(" ")}</p>
+        <div class="cvr-line"><span>実績反響率</span><b>${c.cvr?pct(c.cvr):"—"}</b></div>
+      </div></div>`).join("")}</div>
+  <p style="color:var(--muted);font-size:12px;margin-top:12px">反響率の高い順に表示。商談で「同業種の実績クリエイティブ」としてそのまま見せられます。</p>`
+  :`<div class="empty"><strong>クリエイティブがまだありません</strong>過去のチラシを反響実績とセットで登録すると、商談で見せられる「実績カタログ」になります。</div>`}`;
+};
+function openCreaForm(id){
+  const c=id?DB.creatives.find(x=>x.id===id):{};
+  openModal(id?"クリエイティブを編集":"クリエイティブを登録",`
+    <div class="frow c2">
+      <div><label class="f">名称 *</label><input id="cr_name" type="text" value="${esc(c.name||"")}" placeholder="例：買取大吉 春の相談会チラシ"></div>
+      <div><label class="f">業種</label><select id="cr_ind">${INDUSTRIES.map(i=>`<option ${c.industry===i?"selected":""}>${i}</option>`).join("")}</select></div>
+    </div>
+    <div class="frow c3">
+      <div><label class="f">サイズ</label><select id="cr_size">${SIZES.map(s=>`<option ${c.size===s?"selected":""}>${s}</option>`).join("")}</select></div>
+      <div><label class="f">実績反響率(%)</label><input id="cr_cvr" type="number" step="0.001" min="0" value="${c.cvr||""}" placeholder="例：0.12"></div>
+      <div><label class="f">タグ（カンマ区切り）</label><input id="cr_tags" type="text" value="${esc((c.tags||[]).join(","))}" placeholder="クーポン,QR,春"></div>
+    </div>
+    <div class="frow"><label class="f">画像（任意・2MBまで）</label><input id="cr_img" type="file" accept="image/*" style="border:1px dashed var(--line);border-radius:10px;padding:10px;width:100%">
+      <div id="cr_prev" style="margin-top:8px">${c.img?`<img src="${c.img}" style="max-height:120px;border-radius:8px;border:1px solid var(--line)">`:""}</div></div>
+    <div class="frow"><label class="f">勝因メモ（何が効いたか）</label><textarea id="cr_memo">${esc(c.memo||"")}</textarea></div>`,`
+    ${id?`<button class="ghost-danger" onclick="if(confirm('削除しますか？')){DB.creatives=DB.creatives.filter(x=>x.id!=='${id}');save();closeModal();RENDER.creatives();toast('削除しました')}">削除</button>`:""}
+    <div class="right"><button onclick="closeModal()">キャンセル</button>
+    <button class="primary" onclick="saveCrea('${id||""}')">保存する</button></div>`);
+  window._creaImg=c.img||"";
+  $("#cr_img").addEventListener("change",e=>{
+    const f=e.target.files[0];if(!f)return;
+    if(f.size>2*1024*1024)return toast("2MB以下の画像にしてください");
+    const rd=new FileReader();
+    rd.onload=()=>{window._creaImg=rd.result;$("#cr_prev").innerHTML=`<img src="${rd.result}" style="max-height:120px;border-radius:8px;border:1px solid var(--line)">`};
+    rd.readAsDataURL(f);
+  });
+}
+function saveCrea(id){
+  const name=$("#cr_name").value.trim();if(!name)return toast("名称を入力してください");
+  const obj={name,industry:$("#cr_ind").value,size:$("#cr_size").value,cvr:+$("#cr_cvr").value||0,
+    tags:$("#cr_tags").value.split(",").map(s=>s.trim()).filter(Boolean),img:window._creaImg||"",memo:$("#cr_memo").value.trim()};
+  if(id)Object.assign(DB.creatives.find(x=>x.id===id),obj);
+  else DB.creatives.unshift({id:uid(),createdAt:today(),...obj});
+  logAct(`クリエイティブ「${name}」を保存`);save();closeModal();RENDER.creatives();toast("保存しました");
+}
+
+/* =====================================================
+   反響分析
+   ===================================================== */
+RENDER.responses=function(){
+  setActions(`<button onclick="exportCSV('responses')">CSV出力</button>`);
+  const rs=[...DB.responses].sort((a,b)=>b.date.localeCompare(a.date));
+  const totC=rs.reduce((s,r)=>s+ +r.copies,0),totR=rs.reduce((s,r)=>s+ +r.responses,0);
+
+  // エリア別集計
+  const byArea={};rs.forEach(r=>{byArea[r.area]=byArea[r.area]||{c:0,r:0};byArea[r.area].c+= +r.copies;byArea[r.area].r+= +r.responses});
+  const areaData=Object.entries(byArea).map(([a,v])=>({label:a,value:v.c?v.r/v.c*100:0,sub:`${num(v.c)}部 / ${num(v.r)}件 / ${v.c?pct(Math.round(v.r/v.c*100*1000)/1000):"—"}`}))
+    .sort((a,b)=>b.value-a.value).slice(0,10);
+
+  // 業種別集計
+  const byInd={};rs.forEach(r=>{
+    const d=deal(r.dealId);const cust=d?DB.customers.find(c=>c.id===d.customerId):null;
+    const ind=cust?.industry||"その他";
+    byInd[ind]=byInd[ind]||{c:0,r:0};byInd[ind].c+= +r.copies;byInd[ind].r+= +r.responses});
+  const indData=Object.entries(byInd).map(([a,v])=>({label:a,value:v.c?v.r/v.c*100:0,sub:v.c?pct(Math.round(v.r/v.c*100*1000)/1000):"—"}))
+    .sort((a,b)=>b.value-a.value);
+
+  const activeDeals=DB.deals.filter(d=>["受注","配布中","報告・反響"].includes(d.stage));
+
+  $("#view").innerHTML=`
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><small>累計配布部数</small><strong>${num(totC)}<em>部</em></strong><span>記録 ${rs.length}件</span></div>
+    <div class="metric m2"><small>累計反響数</small><strong>${num(totR)}<em>件</em></strong><span>問い合わせ・来店・QR等</span></div>
+    <div class="metric m4"><small>全体反響率</small><strong>${totC?pct(Math.round(totR/totC*100*1000)/1000):"—"}</strong><span>反響 ÷ 配布部数</span></div>
+  </div>
+  <div class="grid-31">
+    <div class="stack">
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">エリア別 反響率ランキング</p><p class="panel-note">「どこに撒くと反響が出るか」を営業トークに使う。</p></div></div>
+        <div class="panel-body">${hBars(areaData)}</div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">業種別 反響率</p><p class="panel-note">自社実績。提案書の説得材料になる。</p></div></div>
+        <div class="panel-body">${hBars(indData)}</div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">記録一覧</p></div><span class="badge gray">${rs.length}件</span></div>
+        <div class="panel-body">${rs.length?`<div style="overflow-x:auto"><table class="table">
+          <thead><tr><th>配布日</th><th>案件</th><th>エリア</th><th class="num">配布</th><th class="num">反響</th><th class="num">率</th><th></th></tr></thead>
+          <tbody>${rs.slice(0,50).map(r=>{const d=deal(r.dealId);return`<tr>
+            <td>${fmtD(r.date)}</td><td style="font-weight:400">${d?esc(d.title):"—"}</td><td>${esc(r.area)}</td>
+            <td class="num">${num(r.copies)}</td><td class="num">${num(r.responses)}</td>
+            <td class="num">${r.copies?pct(Math.round(r.responses/r.copies*100*1000)/1000):"—"}</td>
+            <td><button class="btn-sm ghost-danger" onclick="delResp('${r.id}')">削除</button></td></tr>`}).join("")}</tbody></table></div>`
+        :`<div class="empty"><strong>実績がまだありません</strong>右のフォームから配布実績と反響数を記録してください。</div>`}</div>
+      </section>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">実績を記録</p><p class="panel-note">案件×エリア×日付で記録します。</p></div></div>
+      <div class="panel-body">
+        ${activeDeals.length?`
+        <div class="frow"><label class="f">案件 *</label><select id="rf_deal">
+          ${activeDeals.map(d=>`<option value="${d.id}">${esc(cname(d.customerId))}：${esc(d.title)}</option>`).join("")}</select></div>
+        <div class="frow c2">
+          <div><label class="f">配布日</label><input id="rf_date" type="date" value="${today()}"></div>
+          <div><label class="f">エリア</label><select id="rf_area">${WARDS.map(w=>`<option>${w}</option>`).join("")}</select></div>
+        </div>
+        <div class="frow c2">
+          <div><label class="f">配布部数</label><input id="rf_copies" type="number" value="5000" step="500" min="0"></div>
+          <div><label class="f">反響数</label><input id="rf_resp" type="number" value="0" min="0"></div>
+        </div>
+        <div class="frow"><label class="f">備考</label><input id="rf_memo" type="text" placeholder="例：QRコード計測 / 電話問い合わせ"></div>
+        <button class="primary" style="width:100%" onclick="saveResp()">記録する</button>
+        <p style="font-size:11.5px;color:var(--muted);margin:12px 0 0;line-height:1.7">記録が貯まると、案件詳細から<b>反響報告書PDF</b>を1クリックで出せます。</p>`
+        :`<div class="empty"><strong>記録できる案件がありません</strong>ステージが「受注」「配布中」「報告・反響」の案件が対象です。</div>`}
+      </div>
+    </section>
+  </div>`;
+};
+function saveResp(){
+  const dealId=$("#rf_deal").value;
+  const copies=+$("#rf_copies").value||0,responses=+$("#rf_resp").value||0;
+  if(!copies)return toast("配布部数を入力してください");
+  DB.responses.unshift({id:uid(),dealId,date:$("#rf_date").value||today(),area:$("#rf_area").value,copies,responses,memo:$("#rf_memo").value.trim()});
+  const d=deal(dealId);logAct(`反響記録：${d.title}（${$("#rf_area").value} ${num(copies)}部/${num(responses)}件）`);
+  save();RENDER.responses();toast("記録しました");
+}
+function delResp(id){DB.responses=DB.responses.filter(r=>r.id!==id);save();RENDER.responses();toast("削除しました")}
+
+/* =====================================================
+   現場資料（禁止物件・配布指示書）
+   ===================================================== */
+RENDER.field=function(){
+  setActions(`<button class="primary" onclick="openProhibForm()">＋ 禁止物件を登録</button>`);
+  const list=[...DB.prohibited].sort((a,b)=>a.area.localeCompare(b.area,"ja"));
+  const byArea={};list.forEach(p=>{(byArea[p.area]=byArea[p.area]||[]).push(p)});
+  $("#view").innerHTML=`
+  <div class="grid-2">
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">禁止物件データベース</p><p class="panel-note">クレーム防止の生命線。配布前に必ず確認。</p></div><span class="badge gray">${list.length}件</span></div>
+      <div class="panel-body">
+        ${list.length?Object.entries(byArea).map(([a,items])=>`
+          <h4 style="margin:6px 0 8px;font-size:13px">${esc(a)}（${items.length}）</h4>
+          <table class="table" style="margin-bottom:14px"><tbody>
+          ${items.map(p=>`<tr><td style="font-weight:400">${esc(p.address)}</td>
+            <td><span class="badge red">${esc(p.reason||"投函禁止")}</span></td>
+            <td style="width:66px"><button class="btn-sm ghost-danger" onclick="if(confirm('削除しますか？')){DB.prohibited=DB.prohibited.filter(x=>x.id!=='${p.id}');save();RENDER.field()}">削除</button></td></tr>`).join("")}
+          </tbody></table>`).join("")
+        :`<div class="empty"><strong>禁止物件がまだ登録されていません</strong>クレームのあった物件・投函禁止表示の物件を登録して、配布指示書に自動反映させましょう。</div>`}
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">配布指示書ジェネレーター</p><p class="panel-note">案件を選ぶと、禁止物件込みの現場向けA4指示書を出力。</p></div></div>
+      <div class="panel-body">
+        ${DB.deals.length?`
+        <div class="frow"><label class="f">案件</label><select id="fi_deal">
+          ${DB.deals.map(d=>`<option value="${d.id}">${esc(cname(d.customerId))}：${esc(d.title)}</option>`).join("")}</select></div>
+        <div class="frow"><label class="f">配布スタッフ名（任意）</label><input id="fi_staff" type="text" placeholder="例：山田・佐藤"></div>
+        <div class="frow"><label class="f">現場への特記事項</label><textarea id="fi_note" placeholder="例：雨天時は翌日に順延。集合ポストのみ。管理人在中物件は声かけ。"></textarea></div>
+        <button class="primary" style="width:100%" onclick="printInstruction()">指示書をプレビュー / 印刷</button>`
+        :`<div class="empty"><strong>案件がありません</strong>案件管理で案件を作成すると、ここから指示書を出力できます。</div>`}
+        <div style="margin-top:16px;border-top:1px solid var(--line-soft);padding-top:14px">
+          <p style="font-size:12.5px;color:var(--muted);line-height:1.8;margin:0">
+            配布実績のGPS記録・日次入力は <a href="https://haifudb-uhf6aprj.manus.space/" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700">配布台帳</a> で管理。<br>
+            このツールの反響分析と併用して「配布の証明＋反響の証明」を両輪で回します。</p>
+        </div>
+      </div>
+    </section>
+  </div>`;
+};
+function openProhibForm(){
+  openModal("禁止物件を登録",`
+    <div class="frow c2">
+      <div><label class="f">エリア</label><select id="pf_area">${WARDS.map(w=>`<option>${w}</option>`).join("")}</select></div>
+      <div><label class="f">理由</label><select id="pf_reason"><option>投函禁止表示</option><option>クレーム歴あり</option><option>管理会社NG</option><option>オートロック不可</option><option>その他</option></select></div>
+    </div>
+    <div class="frow"><label class="f">物件名・住所 *</label><input id="pf_addr" type="text" placeholder="例：グランドメゾン板橋 本町2-x-x"></div>`,`
+    <div class="right"><button onclick="closeModal()">キャンセル</button>
+    <button class="primary" onclick="saveProhib()">登録する</button></div>`);
+}
+function saveProhib(){
+  const addr=$("#pf_addr").value.trim();if(!addr)return toast("物件名・住所を入力してください");
+  DB.prohibited.unshift({id:uid(),area:$("#pf_area").value,address:addr,reason:$("#pf_reason").value});
+  logAct(`禁止物件を登録（${$("#pf_area").value}）`);save();closeModal();RENDER.field();toast("登録しました");
+}
+function printInstruction(){
+  const d=deal($("#fi_deal").value);if(!d)return;
+  const cust=DB.customers.find(c=>c.id===d.customerId)||{};
+  const prohib=DB.prohibited.filter(p=>(d.areas||[]).includes(p.area));
+  const s=DB.settings;
+  openPrint("配布指示書プレビュー",`
+  <div class="doc"><div class="side"></div>
+    <div class="doc-eyebrow">FIELD INSTRUCTION</div>
+    <h1 class="dt" style="font-size:23px">配布指示書</h1>
+    <p class="dl">発行日：${fmtD(today())}　／　担当スタッフ：${esc($("#fi_staff").value||"＿＿＿＿＿＿")}</p>
+    <h2 class="ds">案件情報</h2>
+    <table class="dtable">
+      <tr><th style="width:26%">案件名</th><td>${esc(d.title)}（${esc(cust.name||"—")}）</td></tr>
+      <tr><th>配布エリア</th><td>${esc((d.areas||[]).join("、")||"—")}</td></tr>
+      <tr><th>配布部数</th><td class="num">${num(d.copies)} 部</td></tr>
+      <tr><th>配布方法</th><td>${esc(d.method)}（${esc(d.size)}）</td></tr>
+      <tr><th>配布期間</th><td>${fmtD(d.startDate)} 〜 ${fmtD(d.endDate)}</td></tr>
+    </table>
+    <h2 class="ds">投函禁止物件（必読）</h2>
+    ${prohib.length?`<table class="dtable">
+      <tr><th style="width:20%">エリア</th><th>物件名・住所</th><th style="width:24%">理由</th></tr>
+      ${prohib.map(p=>`<tr><td>${esc(p.area)}</td><td>${esc(p.address)}</td><td>${esc(p.reason)}</td></tr>`).join("")}</table>`
+    :`<p class="dl">対象エリアに登録済みの禁止物件はありません。現地の「チラシ投函禁止」表示には必ず従ってください。</p>`}
+    <h2 class="ds">共通ルール</h2>
+    <p class="dl" style="font-size:11.5px">
+      1. 「チラシ・広告投函お断り」表示のある物件・ポストには絶対に投函しない。<br>
+      2. 管理人・住人から注意を受けた場合はその場で謝罪し配布を中止、物件名を必ず報告する。<br>
+      3. ポストからはみ出す投函・二つ折りでの押し込みは禁止。丁寧に奥まで入れる。<br>
+      4. 配布中はGPS記録アプリを必ず起動しておくこと。<br>
+      5. 雨天時：チラシが濡れる恐れがある場合は中断し、本部へ連絡。</p>
+    ${$("#fi_note").value.trim()?`<h2 class="ds">特記事項</h2><p class="dl">${esc($("#fi_note").value.trim()).replace(/\n/g,"<br>")}</p>`:""}
+    <div class="doc-foot"><span>${esc(s.company)}</span><span>緊急連絡先：${esc(s.tel||"本部")}</span></div>
+  </div>`);
+  logAct(`配布指示書を出力（${d.title}）`);save();
+}
+
+/* =====================================================
+   営業ナビ（新人でも商談できる教科書）
+   ===================================================== */
+RENDER.navi=function(){
+  setActions(`<button class="primary" onclick="go('proposal')">提案書を作る</button>`);
+  $("#view").innerHTML=`
+  <div class="grid-2">
+  <div class="navi-sec">
+
+  <details class="acc" open><summary>① 商談の型（この順で話せば成立する）</summary><div class="acc-b">
+    <h5>STEP 1｜ヒアリング（5分）</h5>
+    <div class="talk">「今、集客はどんな方法をされていますか？」<br>「チラシは過去にやられたことありますか？その時の反響はどうでした？」<br>「1件のお客様が来ると、だいたい売上はいくらぐらいになりますか？」</div>
+    最後の質問が最重要。<b>顧客単価が分かれば「反響何件でペイするか」を計算して見せられる。</b>
+    <h5>STEP 2｜このツールで一緒に見る（5分）</h5>
+    その場で「提案書ジェネレーター」を開き、業種・エリア・部数を入れて<b>予測反響数と反響1件あたりコスト</b>を見せる。数字が出ると話が具体化する。
+    <h5>STEP 3｜実績を見せる（3分）</h5>
+    「反響分析」のエリア別ランキングと「クリエイティブ」の同業種実績を見せる。<b>他社の成功例ではなく自社データ</b>なのが最大の武器。
+    <h5>STEP 4｜クロージング</h5>
+    <div class="talk">「まずは反響が読みやすい30,000部前後で1回試して、エリア別の反響データを取りましょう。2回目からはそのデータで無駄を削れます」</div>
+    <b>「1回で決めない・データを取る」提案</b>は断られにくく、継続受注につながる。
+  </div></details>
+
+  <details class="acc"><summary>② よくある断り文句と切り返し</summary><div class="acc-b">
+    <h5>「チラシって効果あるの？ネットの時代でしょ」</h5>
+    <div class="talk obj">「ネット広告は"探している人"にしか届きません。ポスティングは<b>まだ探していない人の生活圏</b>に直接届きます。実際、シニア層・ファミリー層の商圏ビジネスでは今も反響が出ています。当社の実データをお見せしますね」</div>
+    <h5>「前にやったけど反響がなかった」</h5>
+    <div class="talk obj">「原因はほぼ3つで、①エリア選定 ②配布品質 ③チラシの中身 です。当社はGPSで配布記録を取り、エリア別に反響率を測るので<b>どこが原因かを特定して改善</b>できます。"配って終わり"の会社と一番違う部分です」</div>
+    <h5>「高い」</h5>
+    <div class="talk obj">「1枚あたり5円前後です。反響率0.1%なら1,000枚で1件、つまり<b>1件の新規獲得コストは約5,000円</b>。お客様1件あたりの売上と比べてどうでしょうか？」</div>
+    <h5>「ちゃんと配ってるか信用できない」</h5>
+    <div class="talk obj">「その不安が一番多いです。だから当社は<b>GPS記録レポート</b>を標準でお出しできます。どの道をいつ配ったか、地図でご確認いただけます」</div>
+  </div></details>
+
+  <details class="acc"><summary>③ 業種別 反響率目安と攻めどころ</summary><div class="acc-b">
+    <table class="kv"><tr><th>業種</th><th>反響率目安</th><th>攻めどころ</th></tr>
+    ${Object.entries(BENCH).filter(([k])=>k!=="その他").map(([k,v])=>`<tr><td>${k}</td><td class="num">${v[0]}〜${v[1]}%</td><td style="font-size:11.5px">${v[2]}</td></tr>`).join("")}
+    </table>
+    <p style="font-size:11.5px;color:var(--muted)">※ 一般的な目安。自社実績が貯まったら「反響分析」の実数値を優先して使うこと。</p>
+  </div></details>
+
+  <details class="acc"><summary>④ ポスティング基礎知識（新人向け）</summary><div class="acc-b">
+    <h5>配布方法の違い</h5>
+    <table class="kv"><tr><th>方法</th><th>特徴</th><th>向く業種</th></tr>
+    <tr><td>軒並み配布</td><td>戸建て・集合すべてに配布。単価最安・到達数最大</td><td>スーパー、デリバリー、行政</td></tr>
+    <tr><td>集合住宅限定</td><td>マンション・アパートのみ。単身/DINKS向け</td><td>賃貸、フィットネス、飲食</td></tr>
+    <tr><td>戸建て限定</td><td>持ち家層に集中。世帯収入・定住性が高い</td><td>リフォーム、買取、不動産売買</td></tr>
+    <tr><td>事業所配布</td><td>オフィス・店舗向け。BtoB訴求</td><td>士業、清掃、OA機器</td></tr></table>
+    <h5>反響が出る時期</h5>
+    引越し（1〜3月）、新学期（2〜3月）、ボーナス（6・12月）、年末大掃除（11〜12月）。<b>業種の繁忙期の1ヶ月前</b>に撒くのが原則。
+    <h5>NGワード・注意</h5>
+    「必ず儲かる」等の断定表現、医療系の効果保証は景表法・薬機法リスク。原稿チェックは必ず本部を通す。
+  </div></details>
+
+  <details class="acc"><summary>⑤ 商談前チェックリスト</summary><div class="acc-b">
+    <table class="kv">
+    <tr><td>☐ 顧客の業種の<b>反響率目安</b>を言えるか（③参照）</td></tr>
+    <tr><td>☐ 顧客の店舗・商圏エリアの<b>自社配布実績</b>を反響分析で確認したか</td></tr>
+    <tr><td>☐ 同業種の<b>実績クリエイティブ</b>を2枚以上見せられるか</td></tr>
+    <tr><td>☐ 概算見積（部数×単価）を暗算できるか　→ A4軒並み 約5円/枚</td></tr>
+    <tr><td>☐ 禁止物件DB・GPS記録の話で<b>品質の差別化</b>を語れるか</td></tr>
+    <tr><td>☐ 商談後、その場で<b>提案書PDF</b>を出す準備ができているか</td></tr>
+    </table>
+  </div></details>
+
+  </div>
+  <div class="navi-sec">
+
+  <details class="acc" open><summary>⑥ 数字で語る電卓（その場で使う）</summary><div class="acc-b">
+    <div class="frow c3">
+      <div><label class="f">配布部数</label><input id="nv_c" type="number" value="30000" step="1000" oninput="nvCalc()"></div>
+      <div><label class="f">想定反響率(%)</label><input id="nv_r" type="number" value="0.1" step="0.01" oninput="nvCalc()"></div>
+      <div><label class="f">顧客単価(円)</label><input id="nv_u" type="number" value="50000" step="1000" oninput="nvCalc()"></div>
+    </div>
+    <div class="frow c2">
+      <div><label class="f">配布単価(円/枚)</label><input id="nv_p" type="number" value="5" step="0.5" oninput="nvCalc()"></div>
+      <div><label class="f">成約率(%)</label><input id="nv_cv" type="number" value="50" step="5" oninput="nvCalc()"></div>
+    </div>
+    <div id="nv_out"></div>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:8px">商談中にこの画面を見せながら「御社の場合…」と当てはめるのが最強の使い方。</p>
+  </div></details>
+
+  <details class="acc"><summary>⑦ 商談の持ち物・当日フロー</summary><div class="acc-b">
+    <h5>持ち物</h5>
+    タブレット（このツール＋配布台帳）／同業種チラシ実物2〜3枚／会社案内／その場でPDFを送れるメール環境
+    <h5>当日フロー（30分商談）</h5>
+    <table class="kv">
+    <tr><td class="num">0-5分</td><td>アイス＋ヒアリング（①のSTEP1）</td></tr>
+    <tr><td class="num">5-15分</td><td>このツールでシミュレーション（数字を一緒に見る）</td></tr>
+    <tr><td class="num">15-22分</td><td>実績提示（反響分析＋クリエイティブ）</td></tr>
+    <tr><td class="num">22-28分</td><td>見積提示＋クロージング（お試し配布提案）</td></tr>
+    <tr><td class="num">28-30分</td><td>次回アクション確定 → 案件管理に即入力</td></tr></table>
+    <h5>商談後 その日のうちに</h5>
+    ① 案件管理に登録（次回アクション日を必ず入れる）② 提案書PDFをメール送付 ③ ダッシュボードで翌日以降のリマインドに乗せる
+  </div></details>
+
+  <details class="acc"><summary>⑧ 当社の強み（暗記推奨・3点）</summary><div class="acc-b">
+    <div class="talk"><b>1. GPS配布記録</b>　「配ったかどうか」を証明できる。業界の最大の不信を潰す。</div>
+    <div class="talk"><b>2. 禁止物件データベース</b>　クレームリスクを組織的に管理。ブランドを守れる。</div>
+    <div class="talk"><b>3. 反響測定→改善提案</b>　配って終わりにしない。データで2回目以降の精度が上がる。</div>
+    この3点は提案書の最終ページにも自動で入っています。口頭とドキュメントで二度刷り込む。
+  </div></details>
+
+  </div>
+  </div>`;
+  nvCalc();
+};
+function nvCalc(){
+  const c=+$("#nv_c").value||0,r=+$("#nv_r").value||0,u=+$("#nv_u").value||0,p=+$("#nv_p").value||0,cv=(+$("#nv_cv").value||0)/100;
+  const cost=c*p,leads=c*r/100,deals=leads*cv,rev=deals*u;
+  const roi=cost?((rev-cost)/cost*100):0;
+  $("#nv_out").innerHTML=`
+  <div class="doc-hero" style="grid-template-columns:repeat(2,1fr);margin-top:6px">
+    <div><small>配布コスト</small><b>${yen(cost)}</b></div>
+    <div><small>予測反響</small><b>${(Math.round(leads*10)/10).toLocaleString()} 件</b></div>
+    <div><small>予測成約 → 売上</small><b>${(Math.round(deals*10)/10).toLocaleString()}件 / ${yen(rev)}</b></div>
+    <div><small>投資対効果</small><b style="color:${roi>=0?"var(--success)":"var(--danger)"}">${Math.round(roi)}%</b></div>
+  </div>`;
+}
+
+/* =====================================================
+   設定・データ
+   ===================================================== */
+RENDER.settings=function(){
+  setActions("");
+  const s=DB.settings;
+  $("#view").innerHTML=`
+  <div class="grid-2">
+    <div class="stack">
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">単価マスタ（円/枚）</p><p class="panel-note">見積・提案書の自動計算に使われます。</p></div></div>
+        <div class="panel-body">
+          <table class="kv"><tr><th>配布方法</th>${SIZES.map(z=>`<th>${z}</th>`).join("")}</tr>
+          ${METHODS.map(m=>`<tr><td>${m}</td>${SIZES.map(z=>`<td><input type="number" step="0.1" min="0" style="width:70px;padding:5px 7px" value="${s.prices[m][z]}" onchange="DB.settings.prices['${m}']['${z}']=+this.value||0;save();toast('単価を更新しました')"></td>`).join("")}</tr>`).join("")}
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">会社情報（提案書・報告書に印字）</p></div></div>
+        <div class="panel-body">
+          <div class="frow c2">
+            <div><label class="f">会社名</label><input type="text" value="${esc(s.company)}" onchange="DB.settings.company=this.value;save()"></div>
+            <div><label class="f">担当者名</label><input type="text" value="${esc(s.person)}" onchange="DB.settings.person=this.value;save()"></div>
+          </div>
+          <div class="frow c2">
+            <div><label class="f">電話</label><input type="tel" value="${esc(s.tel)}" onchange="DB.settings.tel=this.value;save()"></div>
+            <div><label class="f">メール</label><input type="email" value="${esc(s.mail)}" onchange="DB.settings.mail=this.value;save()"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="stack">
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">バックアップ / 復元</p><p class="panel-note">データはこの端末のブラウザにのみ保存されます。定期的にJSONで書き出してください。</p></div></div>
+        <div class="panel-body" style="display:grid;gap:10px">
+          <button onclick="backupJSON()">全データをJSONで書き出す</button>
+          <label class="btn" style="text-align:center;cursor:pointer">JSONから復元する<input type="file" accept=".json" style="display:none" onchange="restoreJSON(this)"></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <button class="btn-sm" onclick="exportCSV('customers')">顧客CSV</button>
+            <button class="btn-sm" onclick="exportCSV('deals')">案件CSV</button>
+            <button class="btn-sm" onclick="exportCSV('responses')">反響CSV</button>
+          </div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">デモデータ</p><p class="panel-note">動きを確認したいときに。</p></div></div>
+        <div class="panel-body" style="display:grid;gap:10px">
+          <button onclick="seedDemo()">デモデータを投入する</button>
+          <button class="ghost-danger" onclick="wipeAll()">全データを削除する</button>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="panel-title">このツールについて</p></div></div>
+        <div class="panel-body"><p style="font-size:12.5px;color:var(--muted);line-height:1.9;margin:0">
+          POSTECH Sales Cloud v1.0<br>
+          単一HTMLファイル／サーバー不要／localStorage永続化。<br>
+          GitHub Pages・Cloudflare Pagesにそのまま置けます。<br>
+          外部連携：<a href="https://haifudb-uhf6aprj.manus.space/" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700">配布台帳</a>
+        </p></div>
+      </section>
+    </div>
+  </div>`;
+};
+
+/* ---------- CSV / JSON ---------- */
+function dl(name,content,type){
+  const b=new Blob([content],{type});const a=document.createElement("a");
+  a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);
+}
+function csvEsc(v){v=String(v??"");return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+function exportCSV(kind){
+  let rows=[];
+  if(kind==="customers"){
+    rows=[["社名","業種","ステータス","担当者","電話","エリア","メモ","登録日"]];
+    DB.customers.forEach(c=>rows.push([c.name,c.industry,c.status,c.contact,c.tel,(c.areas||[]).join("・"),c.memo,c.createdAt]));
+  }else if(kind==="deals"){
+    rows=[["案件名","顧客","ステージ","部数","サイズ","方法","金額","開始","終了","エリア","次回日","次回内容","メモ"]];
+    DB.deals.forEach(d=>rows.push([d.title,cname(d.customerId),d.stage,d.copies,d.size,d.method,d.price,d.startDate,d.endDate,(d.areas||[]).join("・"),d.nextDate,d.nextAction,d.memo]));
+  }else{
+    rows=[["配布日","案件","顧客","エリア","配布部数","反響数","反響率(%)","備考"]];
+    DB.responses.forEach(r=>{const d=deal(r.dealId);rows.push([r.date,d?d.title:"",d?cname(d.customerId):"",r.area,r.copies,r.responses,r.copies?Math.round(r.responses/r.copies*100*1000)/1000:"",r.memo])});
+  }
+  const csv="\uFEFF"+rows.map(r=>r.map(csvEsc).join(",")).join("\r\n");
+  dl(`psc_${kind}_${today()}.csv`,csv,"text/csv");toast("CSVを書き出しました");
+}
+function backupJSON(){dl(`psc_backup_${today()}.json`,JSON.stringify(DB,null,1),"application/json");toast("バックアップを書き出しました")}
+function restoreJSON(input){
+  const f=input.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{try{
+    const d=JSON.parse(rd.result);
+    if(!d.customers||!d.deals)throw 0;
+    DB=Object.assign(blank(),d);save();go("dashboard");toast("復元しました");
+  }catch(e){toast("復元に失敗しました（形式が違います）")}};
+  rd.readAsText(f);
+}
+function wipeAll(){
+  if(!confirm("全データを削除します。よろしいですか？"))return;
+  if(!confirm("本当に削除しますか？この操作は取り消せません。"))return;
+  DB=blank();save();go("dashboard");toast("全データを削除しました");
+}
+
+/* ---------- デモデータ ---------- */
+function seedDemo(){
+  if(DB.customers.length&&!confirm("既存データにデモデータを追加します。よろしいですか？"))return;
+  const m=(off)=>{const d=new Date();d.setMonth(d.getMonth()-off);return d.toISOString().slice(0,7)};
+  const day=(mk,dd)=>mk+"-"+String(dd).padStart(2,"0");
+  const cs=[
+    {name:"買取大吉 板橋店",industry:"買取・リサイクル",status:"取引中",contact:"高橋様",tel:"03-xxxx-1111",areas:["板橋区","北区"],memo:"月次で継続配布中。反響報告を毎月提出。"},
+    {name:"みらい進学ゼミナール",industry:"学習塾・教育",status:"取引中",contact:"佐藤塾長",tel:"03-xxxx-2222",areas:["練馬区","中野区"],memo:"春期講習前が最重要。ファミリー層エリア指定。"},
+    {name:"サクラ不動産販売",industry:"不動産(売買)",status:"商談中",contact:"田中部長",tel:"03-xxxx-3333",areas:["世田谷区"],memo:"戸建て限定配布を検討中。査定チラシ。"},
+    {name:"麺屋 轟 中野本店",industry:"飲食・デリバリー",status:"商談中",contact:"轟オーナー",tel:"03-xxxx-4444",areas:["中野区"],memo:"クーポン付きで試したい意向。"},
+    {name:"リフォームのヤマト住建",industry:"リフォーム・住設",status:"見込",contact:"山本様",tel:"",areas:["杉並区","練馬区"],memo:"展示会で名刺交換。次回架電。"},
+    {name:"ほぐし処 和み 板橋院",industry:"整骨院・治療院",status:"休眠",contact:"院長",tel:"",areas:["板橋区"],memo:"昨年1回のみ。反響データを武器に再アプローチ余地。"}
+  ].map(c=>({id:uid(),createdAt:today(),...c}));
+  DB.customers.unshift(...cs);
+  const P=DB.settings.prices;
+  const mk2=m(2),mk1=m(1),mk0=m(0);
+  const ds=[
+    {customerId:cs[0].id,title:`${mk0.slice(5)}月度 定期配布 板橋・北 6万部`,stage:"配布中",copies:60000,size:"A4",method:"軒並み配布",areas:["板橋区","北区"],startDate:day(mk0,1),endDate:day(mk0,20),nextDate:day(mk0,25),nextAction:"月次反響報告の訪問"},
+    {customerId:cs[0].id,title:`${mk1.slice(5)}月度 定期配布 板橋・北 6万部`,stage:"報告・反響",copies:60000,size:"A4",method:"軒並み配布",areas:["板橋区","北区"],startDate:day(mk1,1),endDate:day(mk1,20)},
+    {customerId:cs[1].id,title:"春期講習告知 練馬・中野 4万部",stage:"報告・反響",copies:40000,size:"B4",method:"軒並み配布",areas:["練馬区","中野区"],startDate:day(mk2,10),endDate:day(mk2,24)},
+    {customerId:cs[2].id,title:"無料査定キャンペーン 世田谷 戸建て3万部",stage:"提案中",copies:30000,size:"A4",method:"戸建て限定",areas:["世田谷区"],nextDate:today(),nextAction:"見積の回答期限。電話フォロー"},
+    {customerId:cs[3].id,title:"開店3周年クーポン 中野 2万部",stage:"ヒアリング",copies:20000,size:"B5以下",method:"集合住宅限定",areas:["中野区"],nextDate:day(mk0,Math.min(28,new Date().getDate()+3)),nextAction:"ラフ案の持参"},
+    {customerId:cs[4].id,title:"外壁塗装 相談会 杉並2万部",stage:"リード",copies:20000,size:"A4",method:"戸建て限定",areas:["杉並区"]}
+  ].map(d=>({id:uid(),createdAt:d.startDate||today(),price:Math.round((P[d.method]?.[d.size]||5)*d.copies),memo:"",...d}));
+  DB.deals.unshift(...ds);
+  const rs=[
+    // 買取大吉 先月分 (好調)
+    {dealId:ds[1].id,date:day(mk1,6),area:"板橋区",copies:18000,responses:31,memo:"電話+来店"},
+    {dealId:ds[1].id,date:day(mk1,12),area:"板橋区",copies:14000,responses:22,memo:""},
+    {dealId:ds[1].id,date:day(mk1,18),area:"北区",copies:28000,responses:26,memo:"北区はやや低め"},
+    // 買取大吉 今月分 (途中)
+    {dealId:ds[0].id,date:day(mk0,5),area:"板橋区",copies:16000,responses:24,memo:""},
+    {dealId:ds[0].id,date:day(mk0,12),area:"北区",copies:12000,responses:11,memo:""},
+    // 塾 (2ヶ月前)
+    {dealId:ds[2].id,date:day(mk2,14),area:"練馬区",copies:24000,responses:19,memo:"資料請求QR"},
+    {dealId:ds[2].id,date:day(mk2,20),area:"中野区",copies:16000,responses:9,memo:""}
+  ].map(r=>({id:uid(),...r}));
+  DB.responses.unshift(...rs);
+  DB.creatives.unshift(
+    {id:uid(),createdAt:today(),name:"買取大吉 出張査定チラシ(春)",industry:"買取・リサイクル",size:"A4",cvr:0.17,tags:["電話導線","高齢層","即日"],img:"",memo:"「その場で現金化」の一言で反響率が1.4倍。電話番号を最大サイズに。"},
+    {id:uid(),createdAt:today(),name:"みらいゼミ 春期講習B4",industry:"学習塾・教育",size:"B4",cvr:0.08,tags:["QR","体験授業","地図"],img:"",memo:"合格実績の顔写真ありverが無しverの1.6倍。"},
+    {id:uid(),createdAt:today(),name:"麺屋轟 半額クーポン",industry:"飲食・デリバリー",size:"B5以下",cvr:0.24,tags:["クーポン","切り取り線"],img:"",memo:"切り取り線付きクーポンは保管率が高く2週間後まで反響が続いた。"}
+  );
+  DB.prohibited.unshift(
+    {id:uid(),area:"板橋区",address:"グランメゾン板橋本町（本町2丁目）",reason:"クレーム歴あり"},
+    {id:uid(),area:"板橋区",address:"パークサイド常盤台 全棟",reason:"管理会社NG"},
+    {id:uid(),area:"北区",address:"赤羽スカイハイツ",reason:"投函禁止表示"},
+    {id:uid(),area:"中野区",address:"中野コーポラス（新井1丁目）",reason:"オートロック不可"}
+  );
+  logAct("デモデータを投入");
+  save();go("dashboard");toast("デモデータを投入しました");
+}
+
+/* ---------- 起動 ---------- */
+renderNav();
+go("dashboard");
+</script>
+</body>
+</html>
