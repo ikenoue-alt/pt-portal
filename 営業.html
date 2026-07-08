@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>POSTECH Sales Cloud</title>
+<title>POSTECH </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -316,7 +316,7 @@ textarea{resize:vertical;min-height:68px}
 <div id="toast"></div>
 <script>
 /* =====================================================
-   POSTECH Sales Cloud
+   POSTECH 
    単一ファイル / 依存ライブラリなし / localStorage永続化
    ===================================================== */
 
@@ -407,14 +407,14 @@ const VIEWS={
  dashboard:{en:"DASHBOARD",t:"営業ダッシュボード",lead:"提案・案件・現場・反響をひとつの流れで確認します。",icon:"M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"},
  customers:{en:"CUSTOMERS",t:"顧客管理",lead:"見込みから既存まで、次のアクションが見える顧客台帳。",icon:"M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"},
  deals:{en:"DEALS",t:"案件管理",lead:"リードから報告まで、案件をドラッグで動かして管理。",icon:"M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"},
- proposal:{en:"PROPOSAL",t:"提案書ジェネレーター",lead:"条件を入れるだけで、そのまま出せる提案書PDFを生成。",icon:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"},
+ proposal:{en:"PROPOSAL",t:"提案書",lead:"条件を入れるだけで、そのまま出せる提案書PDFを生成。",icon:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"},
  creatives:{en:"CREATIVES",t:"クリエイティブ",lead:"過去の制作物と反響実績を紐づけて資産化。",icon:"M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22z"},
  responses:{en:"RESPONSES",t:"反響分析",lead:"配布実績と反響を記録して、次の提案の武器にする。",icon:"M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"},
  field:{en:"FIELD",t:"現場資料",lead:"禁止物件と配布指示書。配布前の確認をここで完結。",icon:"M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"},
  navi:{en:"SALES NAVI",t:"営業ナビ",lead:"新人でも今日から商談できる、ポスティング営業の教科書。",icon:"M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"},
  settings:{en:"SETTINGS",t:"設定・データ",lead:"単価マスタとバックアップ。データはこの端末に保存されます。",icon:"M19.14 12.94a7.14 7.14 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7.14 7.14 0 0 0 0 1.88L2.83 14.4a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.39.32.61.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.49.42h3.8c.24 0 .45-.18.49-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.1.48.01.61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.46zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"}
 };
-const NAV_GROUPS=[["メイン",["dashboard","customers","deals"]],["営業武器",["proposal","creatives","responses","navi"]],["現場・運用",["field","settings"]]];
+const NAV_GROUPS=[["メイン",["dashboard","customers","deals"]],["営業ツール",["proposal","creatives","responses","navi"]],["現場・運用",["field","settings"]]];
 let CURRENT="dashboard";
 
 function renderNav(){
@@ -822,7 +822,7 @@ function openDealDetail(id){
 }
 
 /* =====================================================
-   提案書ジェネレーター
+   提案書
    ===================================================== */
 RENDER.proposal=function(){
   setActions(`<button onclick="go('navi')">営業ナビを見る</button>`);
@@ -1484,7 +1484,7 @@ RENDER.settings=function(){
       <section class="panel">
         <div class="panel-head"><div><p class="panel-title">このツールについて</p></div></div>
         <div class="panel-body"><p style="font-size:12.5px;color:var(--muted);line-height:1.9;margin:0">
-          POSTECH Sales Cloud v1.0<br>
+          POSTECH v1.0<br>
           単一HTMLファイル／サーバー不要／localStorage永続化。<br>
           GitHub Pages・Cloudflare Pagesにそのまま置けます。<br>
           外部連携：<a href="https://haifudb-uhf6aprj.manus.space/" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700">配布台帳</a>
