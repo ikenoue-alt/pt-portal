@@ -4,50 +4,59 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>POSTECH Sales Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f3f4f6; --surface:#fff; --surface-2:#f8f9fa;
-  --ink:#1c2430; --muted:#66707d; --line:#d9dee4; --line-soft:#e9edf1;
-  --nav:#161f2c;
-  --brand:#1f5b8f; --brand-dark:#17456e; --brand-soft:#eef4f9;
-  --accent:#a8811f; --accent-soft:#faf5e7;
-  --success:#21694f; --success-soft:#edf6f2;
+  --bg:#f5f6f5; --surface:#fff; --surface-2:#f8f9f8;
+  --ink:#14201a; --muted:#68716c; --line:#dde1dd; --line-soft:#eaedea;
+  --nav:#0e1f16;
+  --brand:#1D9E75; --brand-dark:#157a5a; --brand-soft:#e9f6f0;
+  --accent:#2ECC8A; --accent-soft:#e9f6f0;
+  --blue:#378ADD; --blue-soft:#ecf4fc;
+  --success:#1D9E75; --success-soft:#e9f6f0;
   --warn:#96610f; --warn-soft:#faf3e6;
   --danger:#a03533; --danger-soft:#fbf0ef;
+  --mono:'DM Mono',ui-monospace,monospace;
+  --disp:'Syne','Noto Sans JP',sans-serif;
   --radius:8px; --radius-sm:4px;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.6;font-feature-settings:"palt"}
+body{margin:0;font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.6;font-feature-settings:"palt"}
 .app{min-height:100vh;display:grid;grid-template-columns:236px 1fr}
-::selection{background:#d4e2ef}
+::selection{background:#cdeede}
 
 /* ===== sidebar ===== */
-aside{background:var(--nav);color:#fff;padding:18px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:30;border-right:1px solid #0d141e}
+aside{background:var(--nav);background-image:linear-gradient(rgba(46,204,138,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(46,204,138,.045) 1px,transparent 1px);background-size:40px 40px;color:#fff;padding:18px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:30;border-right:1px solid #0a1710}
 .logo{display:flex;align-items:center;gap:10px;margin:2px 0 18px;padding:0 8px;cursor:pointer}
-.mark{width:32px;height:32px;border-radius:var(--radius-sm);background:var(--brand);border:1px solid #35719f;display:grid;place-items:center;color:#fff;font-weight:700;letter-spacing:-.03em;font-size:15px;flex:none}
-.logo strong{display:block;font-size:13px;line-height:1.25;font-weight:700;letter-spacing:.01em}
-.logo span{display:block;color:#8b98a8;font-size:10px;margin-top:3px;letter-spacing:.04em}
-.navgroup{font-size:10px;font-weight:600;color:#6d7a8b;letter-spacing:.14em;padding:16px 10px 5px}
+.mark{width:32px;height:32px;border-radius:var(--radius-sm);background:var(--brand);border:1px solid #2bb387;display:grid;place-items:center;color:#fff;font-weight:800;font-family:var(--disp);letter-spacing:-.03em;font-size:15px;flex:none}
+.logo strong{display:block;font-size:14px;line-height:1.2;font-weight:800;font-family:var(--disp);letter-spacing:.02em}
+.logo span{display:flex;align-items:center;gap:5px;color:#7fa392;font-size:9px;margin-top:4px;letter-spacing:.13em;font-family:var(--mono)}
+.live{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;flex:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.72)}}
+.navgroup{font-size:9px;font-weight:500;color:#5e7a6c;letter-spacing:.16em;padding:16px 10px 5px;font-family:var(--mono)}
 nav{display:grid;gap:1px}
-.navitem{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);color:#aeb9c6;font-size:12.5px;text-decoration:none;cursor:pointer;border:0;background:none;text-align:left;font-family:inherit;width:100%;position:relative}
-.navitem:hover{background:rgba(255,255,255,.05);color:#e8edf2}
+.navitem{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);color:#a9bab1;font-size:12.5px;text-decoration:none;cursor:pointer;border:0;background:none;text-align:left;font-family:inherit;width:100%;position:relative}
+.navitem:hover{background:rgba(255,255,255,.05);color:#e9f1ec}
 .navitem.active{background:rgba(255,255,255,.08);color:#fff}
-.navitem.active:before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:#c9a13d;border-radius:1px}
+.navitem.active:before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:var(--accent);border-radius:1px}
 .navitem svg{width:16px;height:16px;flex:none;opacity:.75}
 .navitem.active svg{opacity:1}
-.navitem .cnt{margin-left:auto;font-size:10.5px;font-weight:600;color:#8b98a8;font-variant-numeric:tabular-nums}
-.navitem.active .cnt{color:#d3dbe4}
+.navitem .cnt{margin-left:auto;font-size:10px;font-weight:500;color:#7d9488;font-family:var(--mono)}
+.navitem.active .cnt{color:#bfe9d6}
 .sidebox{margin-top:22px;border-top:1px solid rgba(255,255,255,.08);padding:14px 10px 0}
-.sidebox p{margin:0;color:#98a4b3;font-size:11px;line-height:1.75}
-.sidebox a{color:#9fc4e8;font-weight:600;text-decoration:none}
+.sidebox p{margin:0;color:#8ea69a;font-size:11px;line-height:1.75}
+.sidebox a{color:#5fd3a4;font-weight:600;text-decoration:none}
 .sidebox a:hover{text-decoration:underline}
 
 /* ===== main frame ===== */
 main{padding:22px 30px 60px;min-width:0}
 .topbar{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px;gap:16px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:.02em}
-h1{font-size:19px;margin:0;font-weight:700;letter-spacing:.01em}
+.breadcrumb{font-size:10px;color:var(--brand);margin-bottom:7px;letter-spacing:.16em;font-family:var(--mono);display:flex;align-items:center;gap:8px}
+.breadcrumb:before{content:"";width:20px;height:1.5px;background:var(--accent);flex:none}
+h1{font-size:19px;margin:0;font-weight:700;letter-spacing:.02em}
 .lead{margin:5px 0 0;color:var(--muted);font-size:12px}
 .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 button,.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 14px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;line-height:1.5}
@@ -64,7 +73,8 @@ button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible
 /* ===== panels ===== */
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
 .panel-head{padding:13px 18px;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.panel-title{font-size:13.5px;font-weight:700;margin:0}
+.panel-title{font-size:13.5px;font-weight:700;margin:0;display:flex;align-items:center;gap:8px}
+.panel-title:before{content:"";width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--blue));flex:none}
 .panel-note{font-size:11.5px;color:var(--muted);margin:2px 0 0}
 .panel-body{padding:16px 18px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
@@ -76,18 +86,18 @@ button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible
 .metric{padding:15px 18px 14px;cursor:pointer;border-right:1px solid var(--line-soft)}
 .metric:last-child{border-right:0}
 .metric:hover{background:#fafbfc}
-.metric small{display:block;color:var(--muted);font-size:11px;margin-bottom:7px;letter-spacing:.02em}
+.metric small{display:block;color:var(--muted);font-size:11px;margin-bottom:7px;letter-spacing:.03em}
 .metric strong{display:block;font-size:23px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums;line-height:1.2}
 .metric strong em{font-style:normal;font-size:12px;color:var(--muted);font-weight:600;margin-left:2px}
 .metric span{display:block;color:var(--muted);font-size:11px;margin-top:6px}
 
 /* ===== badges ===== */
 .badge{font-size:10.5px;font-weight:600;border:1px solid var(--line);border-radius:3px;padding:2px 7px;background:#fff;white-space:nowrap;color:#3d4b5c;display:inline-block;letter-spacing:.02em}
-.badge.gold{color:#7c5e12;background:var(--accent-soft);border-color:#e2d1a2}
-.badge.green{color:#1e5c46;background:var(--success-soft);border-color:#bfdcd0}
+.badge.gold{color:#136a4d;background:var(--brand-soft);border-color:#b5e0cd}
+.badge.green{color:#136a4d;background:var(--success-soft);border-color:#b5e0cd}
 .badge.red{color:#8a2f2d;background:var(--danger-soft);border-color:#e2c0be}
 .badge.orange{color:#7d5310;background:var(--warn-soft);border-color:#e6d2ab}
-.badge.blue{color:#1d5384;background:var(--brand-soft);border-color:#c2d6e7}
+.badge.blue{color:#1d5f9e;background:var(--blue-soft);border-color:#c3daf1}
 .badge.gray{color:#5b6674;background:#f2f4f6;border-color:#dde2e9}
 
 /* ===== tables ===== */
@@ -107,7 +117,7 @@ button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible
 label.f{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;letter-spacing:.02em}
 input[type=text],input[type=number],input[type=date],input[type=tel],input[type=email],select,textarea{
   width:100%;border:1px solid var(--line);border-radius:var(--radius-sm);padding:7px 10px;font-size:12.5px;font-family:inherit;background:#fff;color:var(--ink)}
-input:focus,select:focus,textarea:focus{outline:2px solid rgba(31,91,143,.3);outline-offset:0;border-color:var(--brand)}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(29,158,117,.3);outline-offset:0;border-color:var(--brand)}
 textarea{resize:vertical;min-height:68px}
 .frow{display:grid;gap:11px;margin-bottom:11px}
 .frow.c2{grid-template-columns:1fr 1fr}
@@ -131,7 +141,7 @@ textarea{resize:vertical;min-height:68px}
 .kcard h4{margin:0 0 4px;font-size:12.5px;font-weight:600}
 .kcard p{margin:0;font-size:11px;color:var(--muted);line-height:1.6}
 .kcard .kfoot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:6px}
-.kcard .kfoot b{font-size:12px;color:var(--brand-dark);font-variant-numeric:tabular-nums}
+.kcard .kfoot b{font-size:12px;color:var(--brand-dark);font-variant-numeric:tabular-nums;font-family:var(--mono)}
 .kcol.dragover{outline:2px dashed var(--brand);outline-offset:-3px}
 
 /* ===== cards grid (creatives) ===== */
@@ -166,7 +176,7 @@ textarea{resize:vertical;min-height:68px}
 .x:hover{color:var(--ink);background:none}
 
 /* ===== toast ===== */
-#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(4px);background:#1c2430;color:#fff;padding:9px 18px;border-radius:5px;font-size:12.5px;font-weight:600;opacity:0;pointer-events:none;transition:.2s;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(4px);background:#0e1f16;color:#fff;padding:9px 18px;border-radius:5px;font-size:12.5px;font-weight:600;opacity:0;pointer-events:none;transition:.2s;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ===== detail fields ===== */
@@ -174,7 +184,7 @@ textarea{resize:vertical;min-height:68px}
 .dfield b{color:var(--muted);font-weight:600;font-size:11.5px}
 .timeline{display:grid;gap:10px}
 .timeitem{display:grid;grid-template-columns:76px 1fr;gap:10px;font-size:11.5px}
-.timeitem b{color:var(--brand-dark);font-variant-numeric:tabular-nums;font-weight:600}
+.timeitem b{color:var(--brand-dark);font-variant-numeric:tabular-nums;font-weight:500;font-family:var(--mono);font-size:11px}
 .timeitem span{color:var(--muted);line-height:1.6}
 
 /* ===== navi (sales knowledge) ===== */
@@ -198,26 +208,26 @@ textarea{resize:vertical;min-height:68px}
 #printRoot{display:none}
 .doc{width:210mm;min-height:296mm;background:#fff;margin:0 auto 14px;padding:18mm 17mm;position:relative;box-shadow:0 6px 24px rgba(0,0,0,.16);page-break-after:always}
 .doc:last-child{page-break-after:auto}
-.doc .side{position:absolute;left:0;top:0;bottom:0;width:4mm;background:var(--brand-dark)}
-.doc-eyebrow{font-size:10px;letter-spacing:.24em;color:var(--accent);font-weight:700;margin-bottom:6mm}
+.doc .side{position:absolute;left:0;top:0;bottom:0;width:4mm;background:var(--nav)}
+.doc-eyebrow{font-size:10px;letter-spacing:.26em;color:var(--brand);font-weight:500;margin-bottom:6mm;font-family:var(--mono)}
 .doc h1.dt{font-size:27px;letter-spacing:.01em;margin:0 0 4mm;line-height:1.4;font-weight:700}
 .doc h2.ds{font-size:15px;border-left:3px solid var(--brand);padding-left:10px;margin:10mm 0 5mm;font-weight:700}
 .doc p.dl{font-size:12px;color:#444;line-height:1.9;margin:0}
 .doc-meta{margin-top:12mm;font-size:12px;color:#555;line-height:2}
 .doc-foot{position:absolute;bottom:12mm;left:22mm;right:17mm;display:flex;justify-content:space-between;font-size:9.5px;color:#98a2b0;letter-spacing:.04em}
 .dtable{width:100%;border-collapse:collapse;font-size:12px}
-.dtable th{background:#eef3f8;border:1px solid #d7dfe8;padding:7px 10px;text-align:left;font-size:10.5px;color:#33495e;font-weight:600;letter-spacing:.03em}
-.dtable td{border:1px solid #d7dfe8;padding:7px 10px}
+.dtable th{background:#edf6f1;border:1px solid #d5e4db;padding:7px 10px;text-align:left;font-size:10.5px;color:#2c4a3d;font-weight:600;letter-spacing:.03em}
+.dtable td{border:1px solid #d5e4db;padding:7px 10px}
 .dtable td.num{text-align:right;font-variant-numeric:tabular-nums}
-.dtable tr.total td{background:#f6f1e4;font-weight:700}
-.doc-hero{background:#f3f6fa;border:1px solid #d7e2ec;border-radius:4px;padding:13px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.dtable tr.total td{background:#eaf6f0;font-weight:700}
+.doc-hero{background:#f1f8f4;border:1px solid #d3e6db;border-radius:4px;padding:13px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
 .doc-hero small{display:block;font-size:9.5px;color:#5c6b7c;margin-bottom:4px;font-weight:600;letter-spacing:.05em}
 .doc-hero b{font-size:19px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .doc-note{font-size:10px;color:#777;margin-top:3mm;line-height:1.7}
 
 #printOverlay{position:fixed;inset:0;background:#4b5057;z-index:150;display:none;overflow:auto;padding:30px 16px 70px}
 #printOverlay.show{display:block}
-.print-tools{position:fixed;top:0;left:0;right:0;background:#161f2c;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:9px 22px;z-index:160}
+.print-tools{position:fixed;top:0;left:0;right:0;background:#0e1f16;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:9px 22px;z-index:160}
 .print-tools b{font-size:12.5px;font-weight:600}
 #printOverlay .doc-wrap{margin-top:46px}
 
@@ -259,7 +269,7 @@ textarea{resize:vertical;min-height:68px}
   <aside id="sidebar">
     <div class="logo" onclick="go('dashboard')">
       <div class="mark">P</div>
-      <div><strong>POSTECH<br>Sales Cloud</strong><span>販促営業支援システム</span></div>
+      <div><strong>POSTECH</strong><span><i class="live"></i>SALES CLOUD — 営業支援</span></div>
     </div>
     <nav id="mainNav"></nav>
     <div class="sidebox">
@@ -272,7 +282,7 @@ textarea{resize:vertical;min-height:68px}
     <div class="topbar">
       <div>
         <button id="menuBtn" class="btn-sm" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ メニュー</button>
-        <div class="breadcrumb" id="crumb">Sales Cloud / Dashboard</div>
+        <div class="breadcrumb" id="crumb">01 — DASHBOARD</div>
         <h1 id="pageTitle">営業ダッシュボード</h1>
         <p class="lead" id="pageLead"></p>
       </div>
@@ -394,15 +404,15 @@ function closePrint(){$("#printOverlay").classList.remove("show")}
 
 /* ---------- ルーター ---------- */
 const VIEWS={
- dashboard:{t:"営業ダッシュボード",lead:"提案・案件・現場・反響をひとつの流れで確認します。",icon:"M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"},
- customers:{t:"顧客管理",lead:"見込みから既存まで、次のアクションが見える顧客台帳。",icon:"M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"},
- deals:{t:"案件管理",lead:"リードから報告まで、案件をドラッグで動かして管理。",icon:"M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"},
- proposal:{t:"提案書",lead:"条件を入れるだけで、そのまま出せる提案書PDFを生成。",icon:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"},
- creatives:{t:"クリエイティブ",lead:"過去の制作物と反響実績を紐づけて資産化。",icon:"M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22z"},
- responses:{t:"反響分析",lead:"配布実績と反響を記録して、次の提案の武器にする。",icon:"M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"},
- field:{t:"現場資料",lead:"禁止物件と配布指示書。配布前の確認をここで完結。",icon:"M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"},
- navi:{t:"営業ナビ",lead:"新人でも今日から商談できる、ポスティング営業の教科書。",icon:"M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"},
- settings:{t:"設定・データ",lead:"単価マスタとバックアップ。データはこの端末に保存されます。",icon:"M19.14 12.94a7.14 7.14 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7.14 7.14 0 0 0 0 1.88L2.83 14.4a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.39.32.61.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.49.42h3.8c.24 0 .45-.18.49-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.1.48.01.61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.46zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"}
+ dashboard:{en:"DASHBOARD",t:"営業ダッシュボード",lead:"提案・案件・現場・反響をひとつの流れで確認します。",icon:"M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"},
+ customers:{en:"CUSTOMERS",t:"顧客管理",lead:"見込みから既存まで、次のアクションが見える顧客台帳。",icon:"M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"},
+ deals:{en:"DEALS",t:"案件管理",lead:"リードから報告まで、案件をドラッグで動かして管理。",icon:"M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"},
+ proposal:{en:"PROPOSAL",t:"提案書ジェネレーター",lead:"条件を入れるだけで、そのまま出せる提案書PDFを生成。",icon:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"},
+ creatives:{en:"CREATIVES",t:"クリエイティブ",lead:"過去の制作物と反響実績を紐づけて資産化。",icon:"M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22z"},
+ responses:{en:"RESPONSES",t:"反響分析",lead:"配布実績と反響を記録して、次の提案の武器にする。",icon:"M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"},
+ field:{en:"FIELD",t:"現場資料",lead:"禁止物件と配布指示書。配布前の確認をここで完結。",icon:"M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"},
+ navi:{en:"SALES NAVI",t:"営業ナビ",lead:"新人でも今日から商談できる、ポスティング営業の教科書。",icon:"M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"},
+ settings:{en:"SETTINGS",t:"設定・データ",lead:"単価マスタとバックアップ。データはこの端末に保存されます。",icon:"M19.14 12.94a7.14 7.14 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7.14 7.14 0 0 0 0 1.88L2.83 14.4a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.39.32.61.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.49.42h3.8c.24 0 .45-.18.49-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.1.48.01.61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.46zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"}
 };
 const NAV_GROUPS=[["メイン",["dashboard","customers","deals"]],["営業武器",["proposal","creatives","responses","navi"]],["現場・運用",["field","settings"]]];
 let CURRENT="dashboard";
@@ -426,7 +436,8 @@ function renderNavCounts(){
 function go(view){
   CURRENT=view;renderNav();
   const v=VIEWS[view];
-  $("#crumb").textContent="Sales Cloud / "+v.t;
+  const ord=["dashboard","customers","deals","proposal","creatives","responses","field","navi","settings"];
+  $("#crumb").textContent=String(ord.indexOf(view)+1).padStart(2,"0")+" — "+(v.en||view.toUpperCase());
   $("#pageTitle").textContent=v.t;
   $("#pageLead").textContent=v.lead;
   $("#sidebar").classList.remove("open");
@@ -452,16 +463,16 @@ function barChart(data,opts={}){
   data.forEach((d,i)=>{
     const cx=pad.l+iw*(i+0.5)/data.length;
     const bh=ih*d.v1/max;
-    g+=`<rect x="${cx-bw/2}" y="${pad.t+ih-bh}" width="${bw}" height="${Math.max(bh,1)}" rx="1" fill="#5484ab"/>`;
+    g+=`<rect x="${cx-bw/2}" y="${pad.t+ih-bh}" width="${bw}" height="${Math.max(bh,1)}" rx="1" fill="#59bb95"/>`;
     g+=`<text x="${cx}" y="${H-9}" font-size="10.5" fill="#667085" text-anchor="middle">${esc(d.label)}</text>`;
     if(d.v2!==undefined){
       const cy=pad.t+ih-ih*(d.v2/max2);
       line+=(line?" L":"M")+cx+" "+cy;
-      dots+=`<circle cx="${cx}" cy="${cy}" r="4" fill="#a8811f" stroke="#fff" stroke-width="1.5"/>`;
-      dots+=`<text x="${cx}" y="${cy-9}" font-size="10" fill="#7c5e12" text-anchor="middle" font-weight="700">${d.v2}</text>`;
+      dots+=`<circle cx="${cx}" cy="${cy}" r="4" fill="#378ADD" stroke="#fff" stroke-width="1.5"/>`;
+      dots+=`<text x="${cx}" y="${cy-9}" font-size="10" fill="#2565a8" text-anchor="middle" font-weight="700">${d.v2}</text>`;
     }
   });
-  if(line)g+=`<path d="${line}" fill="none" stroke="#a8811f" stroke-width="1.5"/>`+dots;
+  if(line)g+=`<path d="${line}" fill="none" stroke="#378ADD" stroke-width="1.5"/>`+dots;
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${g}</svg>`;
 }
 function hBars(data,opts={}){
@@ -472,7 +483,7 @@ function hBars(data,opts={}){
      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
        <b>${esc(d.label)}</b><span style="color:var(--muted)">${esc(d.sub)}</span></div>
      <div style="height:7px;background:#eef1f4;border-radius:1px;overflow:hidden">
-       <div style="width:${Math.max(2,d.value/max*100)}%;height:100%;background:#3d6d99"></div></div>
+       <div style="width:${Math.max(2,d.value/max*100)}%;height:100%;background:#1D9E75"></div></div>
    </div>`).join("")||`<p style="color:var(--muted);font-size:12px">データがまだありません。</p>`;
 }
 
@@ -529,7 +540,7 @@ RENDER.dashboard=function(){
   <div class="grid-31">
     <div class="stack">
       <section class="panel">
-        <div class="panel-head"><div><p class="panel-title">配布部数と反響率の推移</p><p class="panel-note">直近6ヶ月。棒＝配布部数、金色＝反響率(%)。</p></div>
+        <div class="panel-head"><div><p class="panel-title">配布部数と反響率の推移</p><p class="panel-note">直近6ヶ月。棒＝配布部数、青線＝反響率(%)。</p></div>
           <button class="btn-sm" onclick="go('responses')">詳細分析へ</button></div>
         <div class="panel-body">
           ${totC?barChart(chartData):`<div class="empty"><strong>まだ実績データがありません</strong>反響分析で配布実績を記録すると、ここに推移が表示されます。<br><br><button class="btn-sm primary" onclick="go('responses')">実績を記録する</button>　<button class="btn-sm" onclick="seedDemo()">デモデータで試す</button></div>`}
@@ -811,7 +822,7 @@ function openDealDetail(id){
 }
 
 /* =====================================================
-   提案書
+   提案書ジェネレーター
    ===================================================== */
 RENDER.proposal=function(){
   setActions(`<button onclick="go('navi')">営業ナビを見る</button>`);
