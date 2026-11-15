@@ -439,6 +439,11 @@ footer { position: relative; z-index: 1; }
       <div class="sec-rule"></div>
     </div>
     <div class="must-grid">
+      <a class="must-card mc-blue full reveal" href="https://script.google.com/macros/s/AKfycbzA3YUXkgCCjBJqA_d6dbtYJLjkrVfviRg7jETYikpR3Xqm0zz6oNBnEzSXbGhqtWm99A/exec?portal=1" target="_blank" rel="noopener noreferrer">
+        <div class="post-head"><span class="post-head-num">WORK DETAILS</span><span class="post-head-label">STAFF LOGIN</span></div>
+        <div class="slot-wrap"><div class="slot-glow"></div><div class="slot-line"></div><div class="slot-lid-top"></div><div class="slot-lid-bottom"></div></div>
+        <div class="mc-card-body"><div class="mc-card-name-wrap"><div class="mc-card-name">稼働詳細</div><div class="mc-card-desc">集合場所・指示書を確認</div></div><div class="mc-card-foot"><span class="mc-card-tag">ID・PASSでログイン</span><i class="ti ti-arrow-up-right mc-card-arrow" style="margin-left:8px"></i></div></div>
+      </a>
       <a class="must-card reveal reveal-delay-1" href="https://sites.google.com/view/haifuchecklist" target="_blank">
         <div class="mc-flyer">
           <div class="mc-flyer-line"></div>
@@ -592,9 +597,11 @@ function openPasswordModal(url) {
 function closePasswordModal() {
   document.getElementById('pw-modal').style.display = 'none';
 }
-function checkPassword() {
+async function checkPassword() {
   const val = document.getElementById('pw-input').value;
-  if (val === 'postech') {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+  const enteredHash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+  if (enteredHash === '8e7e5433e3986ccbb3fad8f672644dd7f00d366809d95ed0dbbe6bf1fbedc4d1') {
     closePasswordModal();
     window.open(_targetUrl, '_blank');
   } else {
@@ -645,3 +652,4 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 </body>
 </html>
+
