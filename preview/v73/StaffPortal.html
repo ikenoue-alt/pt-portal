@@ -20,9 +20,9 @@ const demo=new URLSearchParams(location.search).get('demo');
 if(demo==='work'){try{localStorage.removeItem('pt.preview.session.v73');}catch(e){}}
 const dates=['2026-11-17','2026-11-18'];
 function meeting(date){return {date:date,meetings:[{name:'サンプル 配布員',state:'ready',time:'11:00',office:'滝野川事務所',workTime:'11:00〜18:00',mapUrl:'https://maps.app.goo.gl/fU1RuQVQVLdvMg8x7?g_st=ic'}],leave:false,updatedAt:'11月17日 18:00:00'};}
-let token='v73.'+'a'.repeat(64),expires=Date.now()+86400000;
+let token='v73.'+crypto.randomUUID().replace(/-/g,'')+crypto.randomUUID().replace(/-/g,''),expires=Date.now()+86400000;
 window.google={script:{run:{withSuccessHandler(ok){return {withFailureHandler(fail){return new Proxy({},{get:(_,method)=>(...args)=>{
-setTimeout(()=>{if(method==='staffPortalLogin'||method==='staffPortalResume'){if(method==='staffPortalLogin')expires=Date.now()+(args[2]===false?3600000:86400000);ok({token:token,name:'サンプル 配布員',dates:dates,expires:expires,initial:meeting(dates[1])});}
+setTimeout(()=>{if(method==='staffPortalLogin'||method==='staffPortalResume'){if(method==='staffPortalLogin')expires=Date.now()+(args[2]===false?3600000:86400000);else{try{const saved=JSON.parse(localStorage.getItem('pt.preview.session.v73')||'null');if(saved){token=saved.token;expires=saved.expires;}}catch(e){}}ok({token:token,name:'サンプル 配布員',dates:dates,expires:expires,initial:meeting(dates[1])});}
 else if(method==='staffPortalGetMeetings')ok(meeting(args[1]));
 else if(method==='staffPortalGetDocuments')ok({date:args[1],leave:false,instructions:[{row:4,name:'サンプル 配布員',office:'滝野川',available:true,url:'https://script.google.com/macros/s/preview/exec?v=53&r=4&k=sample'}]});
 else ok({warmed:1});},30);
